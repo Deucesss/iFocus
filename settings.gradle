@@ -14,4 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "iFocus"
 include ':app'
-include ':lib-common'
+include ':core:common'
+include ':core:network'
+include ':feature:timer'
+include ':feature:statistics'
+include ':feature:profile'

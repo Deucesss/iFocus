@@ -34,8 +34,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-
 }
 
 // Allow references to generated code
@@ -56,5 +54,10 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
 
-    api project(":lib-common")
+
+
+    implementation project(":core:common")
+    implementation project(":feature:timer")
+    implementation project(":feature:statistics")
+    implementation project(":feature:profile")
 }
