@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' }
     }
 }
 rootProject.name = "iFocus"
@@ -19,3 +20,4 @@ include ':core:network'
 include ':feature:timer'
 include ':feature:statistics'
 include ':feature:profile'
+include ':core:design'

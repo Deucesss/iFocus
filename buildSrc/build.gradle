@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+gradlePlugin {
+    plugins {
+        register("androidHilt") {
+            id = "ifocus.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
+    }
+}
+

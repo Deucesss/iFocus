@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AnalogClock">
+        <attr name="clock_color" format="color" />
+        <attr name="clock_radius" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CircularClock">
+        <attr name="circular_clock_color" format="color" />
+        <attr name="circular_clock_progress_color" format="color" />
+        <attr name="circular_clock_time_color" format="color" />
+        <attr name="circular_clock_radius" format="dimension" />
+        <attr name="circular_clock_laps" format="integer" />
+        <attr name="circular_clock_gap" format="integer" />
+        <attr name="circular_clock_stroke_width" format="dimension" />
+    </declare-styleable>
+
+</resources>

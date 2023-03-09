@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'ifocus.android.hilt'
+    id 'AndroidApplicationConventionPlugin'
 }
-
-apply from: "$rootProject.project.projectDir/config.gradle"
 
 android {
     namespace 'com.rencaihu.profile'
