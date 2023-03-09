@@ -5,3 +5,17 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'com.google.dagger.hilt.android' version '2.44' apply false
 }
+
+
+class GreetingPlugin implements Plugin<Project> {
+    @Override
+    void apply(Project project) {
+        project.task("hello") {
+            doLast {
+                println "Hello from the greeting plugin"
+            }
+        }
+    }
+}
+
+apply plugin: GreetingPlugin
