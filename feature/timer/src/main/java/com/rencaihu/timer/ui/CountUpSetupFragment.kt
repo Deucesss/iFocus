@@ -2,19 +2,13 @@ package com.rencaihu.timer.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.rencaihu.common.BaseFragment
-import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
-import com.rencaihu.timer.viewmodel.TimerSetupViewModel
-import kotlinx.coroutines.launch
+import com.rencaihu.timer.databinding.FragmentCountUpSetupBinding
 
-class CountUpSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
+class CountUpSetupFragment: BaseFragment<FragmentCountUpSetupBinding>() {
 
-    override fun getViewBinding(): LayoutTimerSetupBinding =
-        LayoutTimerSetupBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentCountUpSetupBinding =
+        FragmentCountUpSetupBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

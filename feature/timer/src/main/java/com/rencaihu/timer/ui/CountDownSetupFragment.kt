@@ -25,16 +25,26 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
     }
 
     private fun setupListeners() {
-        binding.switcher.setOnClickListener {
+        binding.clock.setOnClickListener {
             viewModel.switchDisplayMode()
+        }
+        binding.switcher.setOnClickListener {
+            if (binding.switcher.displayedChild == 1) {
+                viewModel.switchDisplayMode()
+            }
+        }
+        binding.wheelNumber.setOnNumberSelectedListener { _, item ->
+            viewModel.setDuration(item.toInt())
         }
     }
 
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.displayMode.collect {
-                    binding.switcher.displayedChild = it.viewPosition
+                viewModel.uiState.collect {
+                    binding.switcher.displayedChild = it.displayMode.viewPosition
+                    binding.clock.setLapDuration(it.duration)
+                    binding.wheelNumber.setDefaultValue(it.duration.toString())
                 }
             }
         }

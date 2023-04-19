@@ -10,6 +10,7 @@ import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
 import com.rencaihu.timer.viewmodel.TimerSetupViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
     private val viewModel: TimerSetupViewModel by viewModels()
@@ -19,22 +20,41 @@ class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupView()
         setupListeners()
         setupObservers()
     }
 
+    private fun setupView() {
+        // default be three laps for tomato
+        viewModel.setLaps(3)
+    }
+
     private fun setupListeners() {
-        binding.switcher.setOnClickListener {
+        binding.clock.setOnClickListener {
             viewModel.switchDisplayMode()
+        }
+
+        binding.switcher.setOnClickListener {
+            if (binding.switcher.displayedChild == 1) {
+                viewModel.switchDisplayMode()
+            }
+        }
+
+        binding.wheelNumber.setOnNumberSelectedListener { _, item ->
+            viewModel.setDuration(item.toInt())
         }
     }
 
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.displayMode.collect {
-                    binding.switcher.displayedChild = it.viewPosition
+                viewModel.uiState.collect {
+                    Timber.d("uiState: $it")
+                    binding.switcher.displayedChild = it.displayMode.viewPosition
+                    binding.clock.setLapDuration(it.duration)
+                    binding.clock.setLaps(it.laps)
+                    binding.wheelNumber.setDefaultValue(it.duration.toString())
                 }
             }
         }

@@ -44,4 +44,6 @@ dependencies {
     api "androidx.navigation:navigation-fragment-ktx:$nav_version"
     api "androidx.navigation:navigation-ui-ktx:$nav_version"
     api "androidx.navigation:navigation-fragment:${nav_version}"
+    api 'com.jakewharton.timber:timber:5.0.1'
+
 }

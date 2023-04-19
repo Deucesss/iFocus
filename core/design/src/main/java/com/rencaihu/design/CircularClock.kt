@@ -1,15 +1,15 @@
 package com.rencaihu.design
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.rencaihu.common.ext.TimeUtil
 import com.rencaihu.common.ext.sp
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CircularClock @JvmOverloads constructor(
@@ -47,14 +47,30 @@ class CircularClock @JvmOverloads constructor(
             textAlign = Paint.Align.CENTER
         }
 
+    private val tomatoDrawable: Drawable by lazy {
+        ContextCompat.getDrawable(context, R.drawable.ic_tomato)!!.mutate()
+    }
+
+    private val tomatoSize: Int
+        get() = tomatoDrawable.intrinsicWidth
+
+    // Style
     private var mRadius: Float = 200f
     private val mInnerRadius get() = mRadius - mStrokeWidth
     private val innerRect: RectF
         get() = RectF(-mInnerRadius, -mInnerRadius, mInnerRadius, mInnerRadius)
     private var mStrokeWidth = 0f
+
+    // Property
+    /**
+     * in seconds
+     */
     private var mProgress = 0
-    private var mLaps = 0
-    private var mLapDuration = 1000
+    /**
+     * in seconds
+     */
+    private var mLapDuration = 1800 // in seconds
+    private var mLaps = 1
     private var mGapDegree = 6
     private val gaps: Int
         get() = if (mLaps > 1) mLaps else 0
@@ -67,7 +83,7 @@ class CircularClock @JvmOverloads constructor(
             mSectionPaint.color = getColor(R.styleable.CircularClock_circular_clock_color, Color.RED)
             mProgressPaint.color = getColor(R.styleable.CircularClock_circular_clock_progress_color, Color.GREEN)
             mTextPaint.color = getColor(R.styleable.CircularClock_circular_clock_time_color, Color.GRAY)
-            mLaps = getInt(R.styleable.CircularClock_circular_clock_laps, 4)
+            mLaps = getInt(R.styleable.CircularClock_circular_clock_laps, 1)
             mGapDegree = getInt(R.styleable.CircularClock_circular_clock_gap, 6)
             mStrokeWidth = getDimension(R.styleable.CircularClock_circular_clock_stroke_width, 4f)
             mSectionPaint.strokeWidth = mStrokeWidth
@@ -114,7 +130,9 @@ class CircularClock @JvmOverloads constructor(
         drawSections(canvas)
         drawProgress(canvas)
         canvas.restore()
-        drawTime(canvas)
+        drawTimeRemaining(canvas)
+        canvas.translate(0f, mTextPaint.fontMetrics.descent - mTextPaint.fontMetrics.ascent + 10)
+        drawLapsRemaining(canvas)
     }
 
     private fun drawSections(canvas: Canvas) {
@@ -152,13 +170,42 @@ class CircularClock @JvmOverloads constructor(
         )
     }
 
-    private fun drawTime(canvas: Canvas) {
-        val text = TimeUtil.formatTimeInSeconds(mProgress)
+    private fun drawTimeRemaining(canvas: Canvas) {
+        val text = TimeUtil.formatTimeInSeconds(mLapDuration - mProgress % mLapDuration)
         canvas.drawText(text, 0f, 0f, mTextPaint)
+    }
+
+    private fun drawLapsRemaining(canvas: Canvas) {
+        if (mLaps == 1) return
+        val text = "x${mLaps - mProgress.floorDiv(mLapDuration)}"
+        val textRect = Rect()
+        mTextPaint.getTextBounds(text, 0, text.length, textRect)
+        val textHeight = textRect.height()
+        val textWidth = textRect.width()
+        canvas.drawText(text, 0f, 0f, mTextPaint)
+        Timber.d("textWidth: $textWidth, textHeight: $textHeight, tomatoSize: $tomatoSize")
+        tomatoDrawable.setTint(mTextPaint.color)
+        tomatoDrawable.setBounds(
+            textWidth / 2 + 10,
+            -tomatoSize + (tomatoSize - textHeight) / 2,
+            textWidth / 2 + tomatoSize + 10,
+            (tomatoSize - textHeight) / 2
+        )
+        tomatoDrawable.draw(canvas)
     }
 
     fun setProgress(progress: Int) {
         this.mProgress = progress
+        invalidate()
+    }
+
+    fun setLaps(laps: Int) {
+        this.mLaps = laps
+        invalidate()
+    }
+
+    fun setLapDuration(minutes: Int) {
+        this.mLapDuration = minutes * 60
         invalidate()
     }
 

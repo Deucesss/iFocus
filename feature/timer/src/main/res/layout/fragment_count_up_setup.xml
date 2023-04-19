@@ -36,16 +36,13 @@
         app:layout_constraintBottom_toTopOf="@id/btnStart"
         android:inAnimation="@android:anim/fade_in"
         >
-        <com.rencaihu.design.CircularClock
+        <com.rencaihu.design.AnalogClock
             android:id="@+id/clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:circular_clock_color="@color/colorPrimary"
-            app:circular_clock_time_color="@color/colorPrimary"
-            app:circular_clock_progress_color="@color/colorPrimary"
-            app:circular_clock_stroke_width="4dp"
-            app:circular_clock_radius="100dp"
+            app:clock_color="@color/colorPrimary"
+            app:clock_radius="100dp"
             />
 
         <com.github.gzuliyujiang.wheelpicker.widget.NumberWheelLayout
