@@ -19,4 +19,9 @@
     <color name="colorTextNormal">#333</color>
     <color name="colorTextLight">#666</color>
     <color name="colorTextLighter">#999</color>
+
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="colorTabText">@color/color_tab_text</color>
+
 </resources>

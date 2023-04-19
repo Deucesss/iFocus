@@ -1,4 +1,4 @@
-package com.rencaihu.timer.ui
+package com.rencaihu.timer.ui.timersetup
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
+import com.rencaihu.timer.ui.ongoingtimer.PomodoroActivity
 import com.rencaihu.timer.viewmodel.TimerSetupViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -43,6 +44,10 @@ class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
 
         binding.wheelNumber.setOnNumberSelectedListener { _, item ->
             viewModel.setDuration(item.toInt())
+        }
+
+        binding.btnStart.setOnClickListener {
+            startActivity(PomodoroActivity.newIntent(requireContext()))
         }
     }
 

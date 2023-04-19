@@ -1,4 +1,4 @@
-package com.rencaihu.timer.ui
+package com.rencaihu.timer.ui.timersetup
 
 import android.os.Bundle
 import android.view.View

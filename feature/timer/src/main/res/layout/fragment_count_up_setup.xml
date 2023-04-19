@@ -20,7 +20,7 @@
         android:text="Focus"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="#666"
+        android:textColor="@color/colorTextLight"
         android:background="@null"
         />
 
@@ -63,7 +63,7 @@
             app:wheel_maxNumber="300"
             app:wheel_itemTextAlign="center"
             app:wheel_visibleItemCount="7"
-            app:wheel_itemTextColor="#333"
+            app:wheel_itemTextColor="@color/colorTextLight"
             app:wheel_itemTextColorSelected="@color/colorPrimary"
             />
     </ViewSwitcher>
