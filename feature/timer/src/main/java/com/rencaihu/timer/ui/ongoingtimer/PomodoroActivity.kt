@@ -2,98 +2,27 @@ package com.rencaihu.timer.ui.ongoingtimer
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.rencaihu.common.BaseActivity
-import com.rencaihu.timer.databinding.ActivityPomodoroBinding
-import kotlinx.coroutines.launch
+import com.rencaihu.common.ext.parcelable
+import com.rencaihu.timer.R
 
-class PomodoroActivity : BaseActivity<ActivityPomodoroBinding>() {
+class PomodoroActivity : BaseFocusActivity() {
+    override fun getClockLayoutResource(): Int =
+        R.layout.layout_pomodoro_clock
 
-    private val viewModel: TimerViewModel by viewModels()
-
-    private lateinit var focus: Focus
-
-    override fun getViewBinding(): ActivityPomodoroBinding =
-        ActivityPomodoroBinding.inflate(layoutInflater)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        initParams(savedInstanceState)
-        setupListeners()
-        setupObservers()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("focus", focus)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        focus.recalibrateTimeOnResume()
-        focus.start()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        focus.pause()
-        focus.recalibrateTimeOnStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    private fun initParams(savedInstanceState: Bundle?) {
-        focus =
-            savedInstanceState?.getParcelable("focus") ?:
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-                intent.getParcelableExtra("focus", Focus::class.java)
-            } else {
-                intent.getParcelableExtra("focus")
-            } ?: return
-        binding.clock.setLaps(focus.laps)
-        binding.clock.setLapDuration(focus.lapDuration)
-        binding.clock.setProgress(focus.progress)
-        focus.setOnTickListener {
-            binding.clock.setProgress(focus.progress)
-        }
-        focus.setOnCompleteListener {  }
-    }
-
-    private fun setupListeners() {
-        binding.btnPause.setOnClickListener {
-            binding.switcher.showNext()
+    override fun getFocus(savedInstanceState: Bundle?): BaseFocus {
+        if (savedInstanceState != null) {
+            return savedInstanceState.parcelable<DownFocus>(EXTRA_FOCUS) as BaseFocus
         }
 
-        binding.btnResume.setOnClickListener {
-            binding.switcher.showNext()
-        }
+        return intent.parcelable<DownFocus>(EXTRA_FOCUS) ?: throw Error("")
     }
 
-    private fun setupObservers() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-            }
-        }
-    }
 
     companion object {
-        @JvmStatic
-        fun newIntent(ctx: Context, focus: Focus): Intent =
+        fun newIntent(ctx: Context, focus: DownFocus): Intent =
             Intent(ctx, PomodoroActivity::class.java).apply {
-                putExtra("focus", focus)
+                putExtra(EXTRA_FOCUS, focus)
             }
     }
 }
