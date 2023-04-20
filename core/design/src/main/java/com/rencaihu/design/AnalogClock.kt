@@ -14,7 +14,7 @@ class AnalogClock @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defaultStyleAttr: Int = 0
-) : View(context, attributeSet, defaultStyleAttr) {
+) : View(context, attributeSet, defaultStyleAttr), IClock {
 
     private var mRadius: Float = DEFAULT_RADIUS.dp
 
@@ -169,9 +169,16 @@ class AnalogClock @JvmOverloads constructor(
     /**
      * @param progress in seconds
      */
-    fun setProgress(progress: Int) {
+    override fun setProgress(progress: Int) {
         this.progress = progress
         invalidate()
+    }
+
+    override fun setLaps(laps: Int) {
+
+    }
+
+    override fun setLapDuration(minutes: Int) {
     }
 
     companion object {

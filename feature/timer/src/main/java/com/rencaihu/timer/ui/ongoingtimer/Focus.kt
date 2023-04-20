@@ -34,7 +34,7 @@ abstract class BaseFocus(
         if (status == STATUS.RUNNING && timestampOnInvisible != null) {
             val timeElapsed = System.currentTimeMillis() - timestampOnInvisible!!
             val progress = (timeElapsed / 1000).toInt()
-            Timber.d("recalibrateProgress: $progress")
+            Timber.d("timeElapse: $timeElapsed, recalibrateProgress: $progress, progress: ${this.progress}")
             this.progress += progress
             timer = newTimer()
             timer!!.start()
@@ -43,11 +43,10 @@ abstract class BaseFocus(
 
     fun recordTimeUponBackground() {
         if (status == STATUS.RUNNING) {
+            timer?.cancel()
             timestampOnInvisible = System.currentTimeMillis()
         }
     }
-
-
 
     fun start() {
         if (status == STATUS.CREATED) {
@@ -87,14 +86,15 @@ abstract class BaseFocus(
         }
 }
 
-class DownFocus(
+class DownFocus constructor(
     id: Long,
     name: String,
     status: STATUS,
     progress: Int,
-    private val lapDuration: Int,
-    private val laps: Int
-) : BaseFocus(id, name, status, progress), Parcelable {
+    val lapDuration: Int,
+    val laps: Int,
+    timestampOnInvisible: Long? = null
+) : BaseFocus(id, name, status, progress, timestampOnInvisible), Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -102,7 +102,8 @@ class DownFocus(
         STATUS.values()[parcel.readInt()],
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readValue(Long::class.java.classLoader) as? Long
     )
 
     override fun describeContents(): Int = 0
@@ -114,6 +115,7 @@ class DownFocus(
         dest.writeInt(progress)
         dest.writeInt(lapDuration)
         dest.writeInt(laps)
+        dest.writeValue(timestampOnInvisible)
     }
 
     private val timeRemaining: Long

@@ -22,3 +22,4 @@ class Timer(private var duration: Long): CountDownTimer(duration, 1000) {
         onActionFinish?.invoke()
     }
 }
+

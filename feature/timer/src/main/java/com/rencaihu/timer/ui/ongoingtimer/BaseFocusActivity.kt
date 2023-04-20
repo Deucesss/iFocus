@@ -2,11 +2,14 @@ package com.rencaihu.timer.ui.ongoingtimer
 
 import android.os.Bundle
 import com.rencaihu.common.BaseActivity
+import com.rencaihu.design.IClock
 import com.rencaihu.timer.databinding.ActivityBaseFocusBinding
+import timber.log.Timber
 
 abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
 
-    private lateinit var focus: BaseFocus
+    protected lateinit var focus: BaseFocus
+    private lateinit var clock: IClock
 
     abstract fun getClockLayoutResource(): Int
 
@@ -18,8 +21,28 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewStub.layoutResource = getClockLayoutResource()
-        binding.viewStub.inflate()
+        clock = binding.viewStub.inflate() as IClock
+
         focus = getFocus(savedInstanceState)
+        initFocus()
+        setListeners()
+    }
+    private fun initFocus() {
+        // TODO: add getters to BaseFocus...
+        (focus as? DownFocus)?.let {
+            clock.setLapDuration(it.lapDuration)
+            clock.setLaps(it.laps)
+        }
+        clock.setProgress(focus.progress)
+        focus.setOnTickListener {
+            Timber.d("progress: ${focus.progress}")
+            clock.setProgress(++focus.progress)
+        }
+        focus.setOnFinishListener {
+
+        }
+
+        Timber.d("${focus.status}")
     }
 
     override fun onStart() {
@@ -41,12 +64,21 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
         focus.recordTimeUponBackground()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        focus.stop()
-    }
-
     private fun setListeners() {
+        binding.btnPause.setOnClickListener {
+            binding.switcher.showNext()
+            focus.pause()
+        }
+
+        binding.btnResume.setOnClickListener {
+            binding.switcher.showNext()
+            focus.resume()
+        }
+
+        binding.btnStop.setOnClickListener {
+            focus.stop()
+            finish()
+        }
     }
 
     companion object {

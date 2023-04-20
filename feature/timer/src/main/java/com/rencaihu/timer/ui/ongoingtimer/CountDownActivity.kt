@@ -13,9 +13,14 @@ class CountDownActivity: BaseFocusActivity() {
 
     override fun getFocus(savedInstanceState: Bundle?): BaseFocus {
         if (savedInstanceState != null) {
-            return savedInstanceState.parcelable<UpFocus>(EXTRA_FOCUS) as BaseFocus
+            return savedInstanceState.parcelable<DownFocus>(EXTRA_FOCUS) as BaseFocus
         }
         return intent.parcelable<DownFocus>(EXTRA_FOCUS) ?: throw Error("$intent")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(EXTRA_FOCUS, focus as? DownFocus)
     }
 
     companion object {

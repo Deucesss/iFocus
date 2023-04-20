@@ -18,8 +18,8 @@ class CircularClock @JvmOverloads constructor(
 ) : View(
     context,
     attrs,
-    defaultStyleAttrs
-) {
+    defaultStyleAttrs),
+    IClock {
     private val mSectionPaint =
         Paint().apply {
             isAntiAlias = true
@@ -195,17 +195,17 @@ class CircularClock @JvmOverloads constructor(
     /**
      * in seconds
      */
-    fun setProgress(progress: Int) {
+    override fun setProgress(progress: Int) {
         mProgress = progress
         invalidate()
     }
 
-    fun setLaps(laps: Int) {
+    override fun setLaps(laps: Int) {
         mLaps = laps
         invalidate()
     }
 
-    fun setLapDuration(minutes: Int) {
+    override fun setLapDuration(minutes: Int) {
         mLapDuration = minutes * 60
         invalidate()
     }
