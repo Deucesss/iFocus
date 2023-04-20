@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'ifocus.android.hilt'
     id 'AndroidApplicationConventionPlugin'
+    id 'kotlin-parcelize'
 }
 
 android {

@@ -2,17 +2,21 @@ package com.rencaihu.timer.ui.ongoingtimer
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.rencaihu.common.BaseActivity
 import com.rencaihu.timer.databinding.ActivityPomodoroBinding
+import kotlinx.coroutines.launch
 
 class PomodoroActivity : BaseActivity<ActivityPomodoroBinding>() {
 
-    private lateinit var timer: Timer
+    private val viewModel: TimerViewModel by viewModels()
 
-    private var lapDuration: Int = 0
-    private var lap: Int = 3
+    private lateinit var focus: Focus
 
     override fun getViewBinding(): ActivityPomodoroBinding =
         ActivityPomodoroBinding.inflate(layoutInflater)
@@ -20,7 +24,51 @@ class PomodoroActivity : BaseActivity<ActivityPomodoroBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initParams(savedInstanceState)
         setupListeners()
+        setupObservers()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("focus", focus)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        focus.recalibrateTimeOnResume()
+        focus.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        focus.pause()
+        focus.recalibrateTimeOnStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    private fun initParams(savedInstanceState: Bundle?) {
+        focus =
+            savedInstanceState?.getParcelable("focus") ?:
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra("focus", Focus::class.java)
+            } else {
+                intent.getParcelableExtra("focus")
+            } ?: return
+        binding.clock.setLaps(focus.laps)
+        binding.clock.setLapDuration(focus.lapDuration)
+        binding.clock.setProgress(focus.progress)
+        focus.setOnTickListener {
+            binding.clock.setProgress(focus.progress)
+        }
+        focus.setOnCompleteListener {  }
     }
 
     private fun setupListeners() {
@@ -33,50 +81,19 @@ class PomodoroActivity : BaseActivity<ActivityPomodoroBinding>() {
         }
     }
 
-    /**
-     * @param duration Time in minutes
-     */
-    class Timer private constructor(private val duration: Long) {
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-        private var timer: CountDownTimer? = null
-
-        fun start() {
-            timer = object : CountDownTimer(duration, COUNT_DOWN_INTERVAL) {
-                override fun onTick(millisUntilFinished: Long) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onFinish() {
-                    TODO("Not yet implemented")
-                }
-            }
-            timer
-        }
-
-        fun pause() {
-
-        }
-
-        fun resume() {
-
-        }
-
-        fun stop() {
-
-        }
-
-        companion object {
-            const val COUNT_DOWN_INTERVAL = 1000L
-
-            fun newInstance(duration: Long): Timer {
-                return Timer(duration)
             }
         }
     }
 
     companion object {
         @JvmStatic
-        fun newIntent(ctx: Context): Intent =
-            Intent(ctx, PomodoroActivity::class.java)
+        fun newIntent(ctx: Context, focus: Focus): Intent =
+            Intent(ctx, PomodoroActivity::class.java).apply {
+                putExtra("focus", focus)
+            }
     }
 }

@@ -1,4 +1,4 @@
-package com.rencaihu.timer.viewmodel
+package com.rencaihu.timer.ui.timersetup
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

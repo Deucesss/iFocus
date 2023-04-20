@@ -27,6 +27,10 @@
         <activity android:name="com.rencaihu.timer.ui.ongoingtimer.PomodoroActivity"
             android:exported="false"
             />
+
+        <activity android:name="com.rencaihu.timer.ui.ongoingtimer.CountDownActivity"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

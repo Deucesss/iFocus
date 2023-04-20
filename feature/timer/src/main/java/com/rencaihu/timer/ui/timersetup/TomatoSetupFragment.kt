@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
+import com.rencaihu.timer.ui.ongoingtimer.Focus
 import com.rencaihu.timer.ui.ongoingtimer.PomodoroActivity
-import com.rencaihu.timer.viewmodel.TimerSetupViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -47,7 +47,14 @@ class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
         }
 
         binding.btnStart.setOnClickListener {
-            startActivity(PomodoroActivity.newIntent(requireContext()))
+            startActivity(PomodoroActivity.newIntent(requireContext(), Focus(
+                0,
+                "",
+                viewModel.uiState.value.duration,
+                viewModel.uiState.value.laps,
+                Focus.STATUS.RUNNING,
+                0
+            )))
         }
     }
 

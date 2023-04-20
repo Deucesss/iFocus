@@ -5,6 +5,4 @@ import androidx.lifecycle.ViewModel
 class TimerViewModel: ViewModel() {
 
 
-
-
 }

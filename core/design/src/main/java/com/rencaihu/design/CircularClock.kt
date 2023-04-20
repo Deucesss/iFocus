@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.rencaihu.common.ext.TimeUtil
 import com.rencaihu.common.ext.sp
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CircularClock @JvmOverloads constructor(
@@ -183,7 +182,6 @@ class CircularClock @JvmOverloads constructor(
         val textHeight = textRect.height()
         val textWidth = textRect.width()
         canvas.drawText(text, 0f, 0f, mTextPaint)
-        Timber.d("textWidth: $textWidth, textHeight: $textHeight, tomatoSize: $tomatoSize")
         tomatoDrawable.setTint(mTextPaint.color)
         tomatoDrawable.setBounds(
             textWidth / 2 + 10,
@@ -194,18 +192,21 @@ class CircularClock @JvmOverloads constructor(
         tomatoDrawable.draw(canvas)
     }
 
+    /**
+     * in seconds
+     */
     fun setProgress(progress: Int) {
-        this.mProgress = progress
+        mProgress = progress
         invalidate()
     }
 
     fun setLaps(laps: Int) {
-        this.mLaps = laps
+        mLaps = laps
         invalidate()
     }
 
     fun setLapDuration(minutes: Int) {
-        this.mLapDuration = minutes * 60
+        mLapDuration = minutes * 60
         invalidate()
     }
 

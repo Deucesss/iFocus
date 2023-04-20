@@ -1,5 +1,6 @@
 package com.rencaihu.timer.ui.timersetup
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
-import com.rencaihu.timer.viewmodel.TimerSetupViewModel
+import com.rencaihu.timer.ui.ongoingtimer.CountDownActivity
 import kotlinx.coroutines.launch
 
 class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
@@ -35,6 +36,9 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
         }
         binding.wheelNumber.setOnNumberSelectedListener { _, item ->
             viewModel.setDuration(item.toInt())
+        }
+        binding.btnStart.setOnClickListener {
+            startActivity(Intent(requireContext(), CountDownActivity::class.java))
         }
     }
 
