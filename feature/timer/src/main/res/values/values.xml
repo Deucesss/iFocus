@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FocusSettingView">
+        <attr name="focus_setting_title" format="reference|string" />
+
+        <attr name="focus_setting_value" format="reference|string" />
+    </declare-styleable>
+
+</resources>

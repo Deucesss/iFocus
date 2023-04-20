@@ -3,10 +3,13 @@ package com.rencaihu.timer.ui.ongoingtimer
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import com.rencaihu.common.BaseActivity
 import com.rencaihu.design.IClock
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.ActivityBaseFocusBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
@@ -34,6 +37,9 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
                 }
             }) as IClock
 
+        lifecycleScope.launch {
+
+        }
 
         focus = getFocus(savedInstanceState)
         initFocus()
