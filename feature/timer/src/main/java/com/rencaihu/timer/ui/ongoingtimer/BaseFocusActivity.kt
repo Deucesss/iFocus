@@ -1,8 +1,11 @@
 package com.rencaihu.timer.ui.ongoingtimer
 
 import android.os.Bundle
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import com.rencaihu.common.BaseActivity
 import com.rencaihu.design.IClock
+import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.ActivityBaseFocusBinding
 import timber.log.Timber
 
@@ -20,8 +23,17 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.viewStub.inflatedId = R.id.clock
         binding.viewStub.layoutResource = getClockLayoutResource()
-        clock = binding.viewStub.inflate() as IClock
+        clock =
+            (binding.viewStub.inflate().apply {
+                // constraint controls to newly inflated clock
+                binding.controls.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    topToBottom = R.id.clock
+                    bottomToTop = binding.settings.id
+                }
+            }) as IClock
+
 
         focus = getFocus(savedInstanceState)
         initFocus()
