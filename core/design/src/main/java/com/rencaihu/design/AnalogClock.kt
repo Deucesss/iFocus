@@ -174,8 +174,8 @@ class AnalogClock @JvmOverloads constructor(
         invalidate()
     }
 
+    // TODO: get rid of this...
     override fun setLaps(laps: Int) {
-
     }
 
     override fun setLapDuration(minutes: Int) {

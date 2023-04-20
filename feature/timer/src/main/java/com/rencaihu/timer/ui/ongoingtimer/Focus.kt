@@ -5,7 +5,7 @@ import android.os.Parcelable
 import timber.log.Timber
 
 enum class STATUS {
-    CREATED, RUNNING, PAUSED, STOPPED, COMPLETED
+    READY, RUNNING, PAUSED, STOPPED, COMPLETED
 }
 
 abstract class BaseFocus(
@@ -52,7 +52,7 @@ abstract class BaseFocus(
     }
 
     fun start() {
-        if (status == STATUS.CREATED) {
+        if (status == STATUS.READY) {
             status = STATUS.RUNNING
             timer = newTimer()
             timer!!.start()
@@ -142,7 +142,7 @@ class DownFocus constructor(
         fun newInstance(id: Long, name: String, lapDuration: Int, laps: Int) = DownFocus(
             id = id,
             name = name,
-            status = STATUS.CREATED,
+            status = STATUS.READY,
             progress = 0,
             lapDuration = lapDuration,
             laps = laps
@@ -179,7 +179,7 @@ class UpFocus(
         fun newInstance(id: Long, name: String) = UpFocus(
             id = id,
             name = name,
-            status = STATUS.CREATED,
+            status = STATUS.READY,
             progress = 0
         )
 

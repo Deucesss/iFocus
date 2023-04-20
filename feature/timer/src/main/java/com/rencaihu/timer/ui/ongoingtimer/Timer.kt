@@ -1,10 +1,8 @@
 package com.rencaihu.timer.ui.ongoingtimer
 
-import android.os.CountDownTimer
-
 
 // TODO: write a new CountDownTimer that sends message after one second delay instead of immediately
-class Timer(duration: Long): CountDownTimer(duration, 1000) {
+class Timer(duration: Long): MyCountDownTimer(duration + 1000L, 1000) {
     private var onActionTick: ((millisUntilFinished: Long) -> Unit)? = null
     private var onActionFinish: (() -> Unit)? = null
 
