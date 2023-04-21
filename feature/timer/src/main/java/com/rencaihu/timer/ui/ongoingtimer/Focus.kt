@@ -24,6 +24,7 @@ sealed class BaseFocus(
     private var onTickListener: (Long) -> Unit = {}
     private var onFinishListener: () -> Unit = {}
 
+
     /**
      * @return duration in milliseconds calculated by child class
      */
