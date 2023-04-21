@@ -3,7 +3,7 @@ package com.rencaihu.timer.ui.ongoingtimer
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.bundleOf
-import com.rencaihu.timer.ui.ongoingtimer.BaseFocusActivity.Companion.EXTRA_FOCUS
+import com.rencaihu.timer.EXTRA_FOCUS
 import timber.log.Timber
 
 enum class STATUS {

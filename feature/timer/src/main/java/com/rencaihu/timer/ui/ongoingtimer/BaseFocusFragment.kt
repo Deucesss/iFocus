@@ -9,9 +9,9 @@ import androidx.core.view.updateLayoutParams
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.common.ext.parcelable
 import com.rencaihu.design.IClock
+import com.rencaihu.timer.EXTRA_FOCUS
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.ActivityBaseFocusBinding
-import com.rencaihu.timer.ui.ongoingtimer.BaseFocusActivity.Companion.EXTRA_FOCUS
 import timber.log.Timber
 
 abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
@@ -76,7 +76,7 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(BaseFocusActivity.EXTRA_FOCUS, focus)
+        outState.putParcelable(EXTRA_FOCUS, focus)
     }
 
     override fun onStart() {

@@ -1,8 +1,9 @@
-package com.rencaihu.timer.ui.ongoingtimer
+package com.rencaihu.common
 
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+
 
 abstract class MyCountDownTimer(
     private val millisInFuture: Long,

@@ -24,14 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.rencaihu.timer.ui.ongoingtimer.PomodoroActivity"
-            android:exported="false"
-            />
-
-        <activity android:name="com.rencaihu.timer.ui.ongoingtimer.CountDownActivity"
-            android:exported="false"
-            />
-
         <activity android:name="com.rencaihu.timer.ui.ongoingtimer.FocusActivity"
             android:exported="false"
             />
