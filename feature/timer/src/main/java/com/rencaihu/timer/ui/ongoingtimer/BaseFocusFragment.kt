@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
-import com.rencaihu.common.ext.parcelable
 import com.rencaihu.design.IClock
 import com.rencaihu.timer.EXTRA_FOCUS
 import com.rencaihu.timer.R
@@ -26,7 +27,6 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
         container: ViewGroup?
     ): ActivityBaseFocusBinding =
         ActivityBaseFocusBinding.inflate(inflater)
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,14 +54,10 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
         setListeners()
     }
 
-    open fun getFocus(savedInstanceState: Bundle?): BaseFocus {
-        return savedInstanceState?.parcelable(EXTRA_FOCUS) ?: arguments?.parcelable(
-            EXTRA_FOCUS
-        ) ?: throw Error("$arguments is null")
-    }
+    abstract fun getFocus(savedInstanceState: Bundle?): BaseFocus
 
     private fun initFocus() {
-        Timber.d("${focus.status}")
+        Timber.d("$focus")
         clock.setProgress(focus.progress)
         clock.setLapDuration(focus.lapDuration)
         clock.setLaps(focus.laps)
@@ -70,7 +66,14 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
             clock.setProgress(++focus.progress)
         }
         focus.setOnFinishListener {
-
+            if (focus.isCompleted) {
+                findNavController().navigate(
+                    R.id.action_countDownFragment_to_focusCompleteFragment,
+                    bundleOf(EXTRA_FOCUS to focus)
+                )
+            } else {
+                // next lap
+            }
         }
     }
 

@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/countDownFragment"
         android:name="com.rencaihu.timer.ui.ongoingtimer.CountDownFragment"
-        android:label="CountDownFragment" />
+        android:label="CountDownFragment" >
+        <action
+            android:id="@+id/action_countDownFragment_to_focusCompleteFragment"
+            app:destination="@id/focusCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/focusCompleteFragment"
+        android:name="com.rencaihu.timer.ui.ongoingtimer.FocusCompleteFragment"
+        android:label="FocusCompleteFragment" >
+        <argument
+            android:name="focus"
+            app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
+    </fragment>
 </navigation>

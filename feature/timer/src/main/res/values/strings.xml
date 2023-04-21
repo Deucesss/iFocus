@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">timer</string>
+    <string name="hint_focus_summary">Write a summary of what you did...</string>
 </resources>

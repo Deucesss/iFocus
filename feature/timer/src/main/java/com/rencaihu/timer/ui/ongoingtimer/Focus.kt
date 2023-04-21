@@ -29,6 +29,8 @@ sealed class BaseFocus(
      */
     abstract fun getDuration(): Long
 
+    abstract val isCompleted: Boolean
+
     fun setOnTickListener(onTick: (millisUntilFuture: Long) -> Unit) {
         this.onTickListener = onTick
     }
@@ -60,6 +62,11 @@ sealed class BaseFocus(
             status = STATUS.RUNNING
             timer = newTimer()
             timer!!.start()
+            return
+        }
+
+        if (status == STATUS.COMPLETED) {
+            onFinishListener()
         }
     }
 
@@ -92,6 +99,9 @@ sealed class BaseFocus(
             setOnFinishListener(onFinishListener)
         }
 
+    override fun toString(): String =
+        "BaseFocus(id=$id, name='$name', status=$status, progress=$progress, laps=$laps, lapDuration=$lapDuration, timestampOnInvisible=$timestampOnInvisible)"
+
     override fun describeContents(): Int = 0
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(id)
@@ -122,6 +132,16 @@ class DownFocus constructor(
         parcel.readInt(),
         parcel.readValue(Long::class.java.classLoader) as? Long
     )
+
+    override val isCompleted: Boolean
+        get() {
+            val isCompleted = progress >= lapDuration * 60 * laps
+            if (isCompleted) {
+                status = STATUS.COMPLETED
+            }
+            return isCompleted
+        }
+
     private val timeRemaining: Long
         get() {
             val currentLapProgress = progress % (lapDuration * 60)
@@ -164,6 +184,9 @@ class UpFocus(
     timestampOnInvisible: Long? = null
 ) : BaseFocus(id, name, status, progress, laps, lapDuration, timestampOnInvisible) {
     override fun getDuration(): Long = Long.MAX_VALUE
+
+    override val isCompleted: Boolean
+        get() = false
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
