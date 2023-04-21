@@ -1,7 +1,9 @@
 package com.rencaihu.timer.ui.timersetup
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,8 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChooseTimerFragment: BaseFragment<FragmentChooseTimerBinding>() {
-    override fun getViewBinding(): FragmentChooseTimerBinding =
-        FragmentChooseTimerBinding.inflate(layoutInflater)
+
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentChooseTimerBinding =
+        FragmentChooseTimerBinding.inflate(layoutInflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

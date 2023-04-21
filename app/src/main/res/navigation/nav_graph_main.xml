@@ -3,16 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/dest_home">
+    app:startDestination="@id/home_nav_graph">
 
-    <fragment
-        android:id="@+id/dest_home"
-        android:name="com.rencaihu.timer.ui.timersetup.ChooseTimerFragment"
-        android:label="ChooseTimerFragment">
-        <deepLink
-            android:id="@+id/deepLink3"
-            app:uri="android-app://example.google.app/home_fragment" />
-    </fragment>
     <fragment
         android:id="@+id/dest_stats"
         android:name="com.rencaihu.statistics.StatsFragment"
@@ -21,4 +13,5 @@
         android:id="@+id/dest_profile"
         android:name="com.rencaihu.profile.ProfileFragment"
         android:label="ProfileFragment"/>
+    <include android:id="@+id/dest_home" app:graph="@navigation/home_nav_graph" />
 </navigation>

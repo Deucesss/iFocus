@@ -11,14 +11,14 @@ abstract class BaseFragment<T: ViewBinding>: Fragment() {
     private var _binding: T? = null
     protected val binding: T get() = _binding!!
 
-    abstract fun getViewBinding(): T
+    abstract fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = getViewBinding()
+        _binding = getViewBinding(inflater, container)
         return binding.root
     }
 

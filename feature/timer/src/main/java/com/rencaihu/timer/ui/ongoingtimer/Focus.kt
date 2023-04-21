@@ -8,7 +8,7 @@ enum class STATUS {
     READY, RUNNING, PAUSED, STOPPED, COMPLETED
 }
 
-abstract class BaseFocus(
+sealed class BaseFocus(
     val id: Long,
     val name: String,
     var status: STATUS,

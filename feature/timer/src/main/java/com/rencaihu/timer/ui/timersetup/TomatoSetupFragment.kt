@@ -1,7 +1,9 @@
 package com.rencaihu.timer.ui.timersetup
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +18,10 @@ import timber.log.Timber
 class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
     private val viewModel: TimerSetupViewModel by viewModels()
 
-    override fun getViewBinding(): LayoutTimerSetupBinding =
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): LayoutTimerSetupBinding =
         LayoutTimerSetupBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

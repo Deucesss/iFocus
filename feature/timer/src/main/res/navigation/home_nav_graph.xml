@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/chooseTimerFragment2">
+
+    <fragment
+        android:id="@+id/chooseTimerFragment2"
+        android:name="com.rencaihu.timer.ui.timersetup.ChooseTimerFragment"
+        android:label="ChooseTimerFragment" >
+        <action
+            android:id="@+id/action_chooseTimerFragment2_to_focusActivity"
+            app:destination="@id/focusActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/focusActivity"
+        android:name="com.rencaihu.timer.ui.ongoingtimer.FocusActivity"
+        android:label="FocusActivity" >
+        <argument
+            android:name="focus"
+            app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
+    </activity>
+</navigation>
