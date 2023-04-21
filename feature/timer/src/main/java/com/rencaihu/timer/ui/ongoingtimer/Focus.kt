@@ -2,6 +2,8 @@ package com.rencaihu.timer.ui.ongoingtimer
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.bundleOf
+import com.rencaihu.timer.ui.ongoingtimer.BaseFocusActivity.Companion.EXTRA_FOCUS
 import timber.log.Timber
 
 enum class STATUS {
@@ -136,6 +138,9 @@ class DownFocus constructor(
         override fun newArray(size: Int): Array<DownFocus?> {
             return arrayOfNulls(size)
         }
+
+        fun newBundle(id: Long, name: String, lapDuration: Int, laps: Int) =
+            bundleOf(EXTRA_FOCUS to newInstance(id, name, lapDuration, laps))
 
         @JvmStatic
         fun newInstance(id: Long, name: String, lapDuration: Int, laps: Int) = DownFocus(
