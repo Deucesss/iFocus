@@ -35,7 +35,7 @@ class ChooseTimerFragment: BaseFragment<FragmentChooseTimerBinding>() {
             setTint(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
         }
         binding.toolbar.setNavigationOnClickListener {
-            binding.root.openDrawer(binding.navDrawer)
+            binding.navDrawerLayout.openDrawer(binding.navDrawer)
         }
     }
 
