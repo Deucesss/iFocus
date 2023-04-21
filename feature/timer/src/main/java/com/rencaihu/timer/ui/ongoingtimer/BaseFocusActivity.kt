@@ -11,7 +11,7 @@ import timber.log.Timber
 
 abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
 
-    protected lateinit var focus: BaseFocus
+    private lateinit var focus: BaseFocus
     private lateinit var clock: IClock
 
     abstract fun getClockLayoutResource(): Int
