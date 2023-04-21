@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/home_nav_graph"
-    app:startDestination="@id/chooseTimerFragment2">
+    android:id="@+id/dest_home"
+    app:startDestination="@id/dest_home_1">
 
     <fragment
-        android:id="@+id/chooseTimerFragment2"
+        android:id="@+id/dest_home_1"
         android:name="com.rencaihu.timer.ui.timersetup.ChooseTimerFragment"
         android:label="ChooseTimerFragment" >
         <action
