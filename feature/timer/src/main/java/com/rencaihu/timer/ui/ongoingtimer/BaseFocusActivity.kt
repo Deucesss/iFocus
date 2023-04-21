@@ -39,12 +39,10 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
         setListeners()
     }
     private fun initFocus() {
-        // TODO: add getters to BaseFocus...
-        (focus as? DownFocus)?.let {
-            clock.setLapDuration(it.lapDuration)
-            clock.setLaps(it.laps)
-        }
+        Timber.d("${focus.status}")
         clock.setProgress(focus.progress)
+        clock.setLapDuration(focus.lapDuration)
+        clock.setLaps(focus.laps)
         focus.setOnTickListener {
             Timber.d("progress: ${focus.progress}")
             clock.setProgress(++focus.progress)
@@ -52,8 +50,11 @@ abstract class BaseFocusActivity: BaseActivity<ActivityBaseFocusBinding>() {
         focus.setOnFinishListener {
 
         }
+    }
 
-        Timber.d("${focus.status}")
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(EXTRA_FOCUS, focus)
     }
 
     override fun onStart() {

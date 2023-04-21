@@ -18,11 +18,6 @@ class CountDownActivity: BaseFocusActivity() {
         return intent.parcelable<DownFocus>(EXTRA_FOCUS) ?: throw Error("$intent")
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(EXTRA_FOCUS, focus as? DownFocus)
-    }
-
     companion object {
         @JvmStatic
         fun newIntent(ctx: Context, focus: DownFocus): Intent =

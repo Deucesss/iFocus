@@ -13,8 +13,10 @@ abstract class BaseFocus(
     val name: String,
     var status: STATUS,
     var progress: Int,
+    val laps: Int,
+    val lapDuration: Int,
     var timestampOnInvisible: Long? = null
-) {
+) : Parcelable {
     var timer: Timer? = null
 
     private var onTickListener: (Long) -> Unit = {}
@@ -87,6 +89,17 @@ abstract class BaseFocus(
             setOnTickListener(onTickListener)
             setOnFinishListener(onFinishListener)
         }
+
+    override fun describeContents(): Int = 0
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(id)
+        dest.writeString(name)
+        dest.writeInt(status.ordinal)
+        dest.writeInt(progress)
+        dest.writeInt(laps)
+        dest.writeInt(lapDuration)
+        dest.writeValue(timestampOnInvisible)
+    }
 }
 
 class DownFocus constructor(
@@ -94,11 +107,10 @@ class DownFocus constructor(
     name: String,
     status: STATUS,
     progress: Int,
-    val lapDuration: Int,
-    val laps: Int,
+    laps: Int,
+    lapDuration: Int,
     timestampOnInvisible: Long? = null
-) : BaseFocus(id, name, status, progress, timestampOnInvisible), Parcelable {
-
+) : BaseFocus(id, name, status, progress, laps, lapDuration, timestampOnInvisible), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
@@ -108,19 +120,6 @@ class DownFocus constructor(
         parcel.readInt(),
         parcel.readValue(Long::class.java.classLoader) as? Long
     )
-
-    override fun describeContents(): Int = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeLong(id)
-        dest.writeString(name)
-        dest.writeInt(status.ordinal)
-        dest.writeInt(progress)
-        dest.writeInt(lapDuration)
-        dest.writeInt(laps)
-        dest.writeValue(timestampOnInvisible)
-    }
-
     private val timeRemaining: Long
         get() {
             val currentLapProgress = progress % (lapDuration * 60)
@@ -154,25 +153,22 @@ class UpFocus(
     id: Long,
     name: String,
     status: STATUS,
-    progress: Int
-) : BaseFocus(id, name, status, progress), Parcelable {
+    progress: Int,
+    laps: Int = 1,
+    lapDuration: Int = Int.MAX_VALUE,
+    timestampOnInvisible: Long? = null
+) : BaseFocus(id, name, status, progress, laps, lapDuration, timestampOnInvisible) {
     override fun getDuration(): Long = Long.MAX_VALUE
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
         STATUS.values()[parcel.readInt()],
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readValue(Long::class.java.classLoader) as? Long
     )
-
-    override fun describeContents(): Int = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeLong(id)
-        dest.writeString(name)
-        dest.writeInt(status.ordinal)
-        dest.writeInt(progress)
-    }
 
     companion object CREATOR : Parcelable.Creator<UpFocus> {
         @JvmStatic

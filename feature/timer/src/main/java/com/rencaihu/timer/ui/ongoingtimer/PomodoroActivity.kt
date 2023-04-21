@@ -17,12 +17,6 @@ class PomodoroActivity : BaseFocusActivity() {
 
         return intent.parcelable<DownFocus>(EXTRA_FOCUS) ?: throw Error("")
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(EXTRA_FOCUS, focus as? DownFocus)
-    }
-
     companion object {
         fun newIntent(ctx: Context, focus: DownFocus): Intent =
             Intent(ctx, PomodoroActivity::class.java).apply {
