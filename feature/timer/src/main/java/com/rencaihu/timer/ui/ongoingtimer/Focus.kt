@@ -4,6 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.bundleOf
 import com.rencaihu.timer.EXTRA_FOCUS
+import timber.log.Timber
+import kotlin.math.roundToInt
 
 enum class STATUS {
     READY, RUNNING, PAUSED, COMPLETED
@@ -34,10 +36,10 @@ sealed class BaseFocus(
     }
 
     fun recalibrateTime() {
-        if (timestampOnDestroy != null) {
-            progress = (progress + ((System.currentTimeMillis() - timestampOnDestroy!!) / 1000).toInt()).coerceAtMost(curLap * lapDuration * 60)
+            val timeElapsed = ((System.currentTimeMillis() - timestampOnDestroy!!) / 1000f).roundToInt()
+            Timber.d("timeElapsed: $timeElapsed")
+            progress = (progress + timeElapsed).coerceAtMost(curLap * lapDuration * 60)
             timestampOnDestroy = null
-        }
     }
 
     override fun toString(): String =

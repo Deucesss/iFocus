@@ -31,7 +31,6 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         focus = getFocus(savedInstanceState)
-        focus.recalibrateTime()
     }
 
     override fun onCreateView(
@@ -74,7 +73,7 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        timer?.cancel()
+        Timber.d("onSaveInstanceState!: $focus")
         focus.saveTimestamp()
         outState.putParcelable(EXTRA_FOCUS, focus)
     }
@@ -85,15 +84,21 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
 
     override fun onResume() {
         super.onResume()
+        recalibrateTimeOnResume()
     }
 
     override fun onPause() {
         super.onPause()
+        recordTimeOnEnteringBackground()
     }
 
     override fun onStop() {
         super.onStop()
         // save focus to datastore
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun setListeners() {
@@ -159,6 +164,15 @@ abstract class BaseFocusFragment: BaseFragment<ActivityBaseFocusBinding>() {
     private fun recordTimeOnEnteringBackground() {
         if (focus.status == STATUS.RUNNING) {
             focus.timestampOnDestroy = System.currentTimeMillis()
+            timer?.cancel()
+        }
+    }
+
+    private fun recalibrateTimeOnResume() {
+        if (focus.status ==  STATUS.RUNNING && focus.timestampOnDestroy != null) {
+            focus.recalibrateTime()
+            newTimer()
+            timer!!.start()
         }
     }
 
