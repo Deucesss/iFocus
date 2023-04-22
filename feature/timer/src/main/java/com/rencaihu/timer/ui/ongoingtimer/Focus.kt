@@ -4,10 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.bundleOf
 import com.rencaihu.timer.EXTRA_FOCUS
-import timber.log.Timber
 
 enum class STATUS {
-    READY, RUNNING, PAUSED, STOPPED, COMPLETED
+    READY, RUNNING, PAUSED, COMPLETED
 }
 
 sealed class BaseFocus(
@@ -16,93 +15,33 @@ sealed class BaseFocus(
     var status: STATUS,
     var progress: Int,
     val laps: Int,
-    val lapDuration: Int,
-    var timestampOnInvisible: Long? = null
+    val lapDuration: Int, // in minutes
+    var curLap: Int,
+    // timestamp when onSaveInstanceState is called
+    var timestampOnDestroy: Long? = null
 ) : Parcelable {
-    var timer: Timer? = null
 
-    private var onTickListener: (Long) -> Unit = {}
-    private var onFinishListener: () -> Unit = {}
+    abstract val timeRemaining: Int
 
-
-    /**
-     * @return duration in milliseconds calculated by child class
-     */
-    abstract fun getDuration(): Long
-
-    abstract val isCompleted: Boolean
-
-    fun setOnTickListener(onTick: (millisUntilFuture: Long) -> Unit) {
-        this.onTickListener = onTick
+    fun nextLap() {
+        curLap = (curLap + 1).coerceAtMost(laps)
     }
 
-    fun setOnFinishListener(onComplete: () -> Unit) {
-        this.onFinishListener = onComplete
-    }
-
-    fun recalibrateProgressAndResume() {
-        if (status == STATUS.RUNNING && timestampOnInvisible != null) {
-            val timeElapsed = System.currentTimeMillis() - timestampOnInvisible!!
-            val progress = (timeElapsed / 1000).toInt()
-            Timber.d("timeElapse: $timeElapsed, recalibrateProgress: $progress, progress: ${this.progress}")
-            this.progress += progress
-            timer = newTimer()
-            timer!!.start()
-        }
-    }
-
-    fun recordTimeUponBackground() {
+    fun saveTimestamp() {
         if (status == STATUS.RUNNING) {
-            timer?.cancel()
-            timestampOnInvisible = System.currentTimeMillis()
+            timestampOnDestroy = System.currentTimeMillis()
         }
     }
 
-    fun start() {
-        if (status == STATUS.READY) {
-            status = STATUS.RUNNING
-            timer = newTimer()
-            timer!!.start()
-            return
-        }
-
-        if (status == STATUS.COMPLETED) {
-            onFinishListener()
+    fun recalibrateTime() {
+        if (timestampOnDestroy != null) {
+            progress = (progress + ((System.currentTimeMillis() - timestampOnDestroy!!) / 1000).toInt()).coerceAtMost(curLap * lapDuration * 60)
+            timestampOnDestroy = null
         }
     }
-
-    fun pause() {
-        if (status == STATUS.RUNNING) {
-            status = STATUS.PAUSED
-            timer?.cancel()
-        }
-    }
-
-    fun resume() {
-        if (status != STATUS.RUNNING) {
-            status = STATUS.RUNNING
-            timer = newTimer()
-            timer!!.start()
-        }
-    }
-
-    fun stop() {
-        if (status != STATUS.STOPPED) {
-            status = STATUS.STOPPED
-            timer?.cancel()
-        }
-    }
-
-    private fun newTimer(): Timer =
-        Timer(getDuration()).apply {
-            timer?.cancel()
-            setOnTickListener(onTickListener)
-            setOnFinishListener(onFinishListener)
-        }
 
     override fun toString(): String =
-        "BaseFocus(id=$id, name='$name', status=$status, progress=$progress, laps=$laps, lapDuration=$lapDuration, timestampOnInvisible=$timestampOnInvisible)"
-
+        "BaseFocus(id=$id, name='$name', status=$status, progress=$progress, laps=$laps, lapDuration=$lapDuration, curLap=$curLap, timestampOnInvisible=$timestampOnDestroy)"
     override fun describeContents(): Int = 0
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(id)
@@ -111,7 +50,8 @@ sealed class BaseFocus(
         dest.writeInt(progress)
         dest.writeInt(laps)
         dest.writeInt(lapDuration)
-        dest.writeValue(timestampOnInvisible)
+        dest.writeInt(curLap)
+        dest.writeValue(timestampOnDestroy)
     }
 }
 
@@ -122,8 +62,9 @@ class DownFocus constructor(
     progress: Int,
     laps: Int,
     lapDuration: Int,
+    curLap: Int = 0,
     timestampOnInvisible: Long? = null
-) : BaseFocus(id, name, status, progress, laps, lapDuration, timestampOnInvisible), Parcelable {
+) : BaseFocus(id, name, status, progress, laps, lapDuration, curLap, timestampOnInvisible), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
@@ -131,25 +72,12 @@ class DownFocus constructor(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readInt(),
         parcel.readValue(Long::class.java.classLoader) as? Long
     )
 
-    override val isCompleted: Boolean
-        get() {
-            val isCompleted = progress >= lapDuration * 60 * laps
-            if (isCompleted) {
-                status = STATUS.COMPLETED
-            }
-            return isCompleted
-        }
-
-    private val timeRemaining: Long
-        get() {
-            val currentLapProgress = progress % (lapDuration * 60)
-            return (lapDuration * 60 - currentLapProgress) * 1000L
-        }
-
-    override fun getDuration(): Long = timeRemaining
+    override val timeRemaining: Int
+        get() = curLap * lapDuration * 60 - progress
 
     companion object CREATOR : Parcelable.Creator<DownFocus> {
         override fun createFromParcel(parcel: Parcel): DownFocus {
@@ -183,11 +111,10 @@ class UpFocus(
     laps: Int = 1,
     lapDuration: Int = Int.MAX_VALUE,
     timestampOnInvisible: Long? = null
-) : BaseFocus(id, name, status, progress, laps, lapDuration, timestampOnInvisible) {
-    override fun getDuration(): Long = Long.MAX_VALUE
+) : BaseFocus(id, name, status, progress, laps, lapDuration, 1, timestampOnInvisible) {
 
-    override val isCompleted: Boolean
-        get() = false
+    override val timeRemaining: Int
+        get() = TODO("Not yet implemented")
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -218,69 +145,3 @@ class UpFocus(
 
     }
 }
-
-//@Parcelize
-//data class Focus(
-//    val id: Long,
-//    val name: String,
-//    val lapDuration: Int,
-//    val laps: Int,
-//    var status: STATUS,
-//    var progress: Int,
-//    private var timestampOnInvisible: Long? = null,
-//) : Parcelable {
-//    val totalDuration: Int get() = lapDuration * laps
-//    val currentLap: Int get() = progress / (lapDuration * 60)
-//    private val currentLapProgress: Int get() = progress % (lapDuration * 60)
-//    private val timeRemaining: Long get() = (lapDuration * 60 - currentLapProgress) * 1000L
-//
-//    @IgnoredOnParcel
-//    private var timer: Timer? = null
-//    @IgnoredOnParcel
-//    private var onTick: ((millisUntilFuture: Long) -> Unit)? = null
-//    @IgnoredOnParcel
-//    private var onComplete: (() -> Unit)? = null
-//
-//    fun start() {
-//        timer?.cancel()
-//        timer = Timer(
-//            timeRemaining,
-//            {
-//                if (status == STATUS.RUNNING) {
-//                    Timber.d("onTick: $this")
-//                    progress++
-//                    onTick!!(it)
-//                }
-//            },
-//            onComplete!!
-//        )
-//        timer!!.start()
-//    }
-//
-//    fun pause() {
-//        timer?.cancel()
-//    }
-//
-//    fun setOnTickListener(onTick: (millisInFuture: Long) -> Unit) {
-//        this.onTick = onTick
-//    }
-//
-//    fun setOnCompleteListener(onComplete: () -> Unit) {
-//        this.onComplete = onComplete
-//    }
-//
-//    fun recalibrateTimeOnStop() {
-//        if (status == STATUS.RUNNING) {
-//            timestampOnInvisible = System.currentTimeMillis()
-//        }
-//    }
-//
-//    fun recalibrateTimeOnResume() {
-//        if (status == STATUS.RUNNING && timestampOnInvisible != null) {
-//            val timeElapsed = (System.currentTimeMillis() - timestampOnInvisible!!) / 1000
-//            progress += timeElapsed.toInt()
-//            timestampOnInvisible = null
-//        }
-//    }
-
-//}

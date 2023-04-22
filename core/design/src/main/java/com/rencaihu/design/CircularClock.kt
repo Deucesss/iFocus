@@ -1,7 +1,11 @@
 package com.rencaihu.design
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
@@ -71,6 +75,7 @@ class CircularClock @JvmOverloads constructor(
     private var mLapDuration = 1800 // in seconds
     private var mLaps = 1
     private var mGapDegree = 6
+    private var mCurLap = 0
     private val gaps: Int
         get() = if (mLaps > 1) mLaps else 0
     private val degreePerLap: Float
@@ -170,13 +175,13 @@ class CircularClock @JvmOverloads constructor(
     }
 
     private fun drawTimeRemaining(canvas: Canvas) {
-        val text = TimeUtil.formatTimeInSeconds(mLapDuration - mProgress % mLapDuration)
+        val text = TimeUtil.formatTimeInSeconds(mCurLap.coerceAtLeast(1) * mLapDuration - mProgress)
         canvas.drawText(text, 0f, 0f, mTextPaint)
     }
 
     private fun drawLapsRemaining(canvas: Canvas) {
         if (mLaps == 1) return
-        val text = "x${mLaps - mProgress.floorDiv(mLapDuration)}"
+        val text = "x${mLaps - mCurLap}"
         val textRect = Rect()
         mTextPaint.getTextBounds(text, 0, text.length, textRect)
         val textHeight = textRect.height()
@@ -207,6 +212,11 @@ class CircularClock @JvmOverloads constructor(
 
     override fun setLapDuration(minutes: Int) {
         mLapDuration = minutes * 60
+        invalidate()
+    }
+
+    override fun setCurrentLap(curLap: Int) {
+        mCurLap = curLap
         invalidate()
     }
 

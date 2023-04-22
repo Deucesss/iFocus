@@ -181,6 +181,9 @@ class AnalogClock @JvmOverloads constructor(
     override fun setLapDuration(minutes: Int) {
     }
 
+    override fun setCurrentLap(curLap: Int) {
+    }
+
     companion object {
         const val DEFAULT_RADIUS = 200f
         const val STROKE_WIDTH_LARGE = 4f

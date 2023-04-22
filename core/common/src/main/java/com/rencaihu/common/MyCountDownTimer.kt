@@ -16,6 +16,11 @@ abstract class MyCountDownTimer(
 
     @Synchronized
     fun start(): MyCountDownTimer {
+
+        if (millisInFuture <= 0) {
+            onFinish()
+            return this
+        }
         mCancelled = false
         val msg = mHandler.obtainMessage(MSG)
         stopTimeInFuture = System.currentTimeMillis() + millisInFuture
