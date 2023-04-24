@@ -17,7 +17,7 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
     var mTimerId: Int = 0
         private set
 
-    private val mTimer: Timer1?
+    private val mTimer: Timer?
         get() = TimerManager.timerManager.getTimer(mTimerId)
 
     private val mTimerRunnable = TimerRunnable()
@@ -78,12 +78,12 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
         timerBinding.root.removeCallbacks(mTimerRunnable)
     }
 
-    fun update(timer: Timer1) {
+    fun update(timer: Timer) {
         when (timer.state) {
-            Timer1.State.READY -> TimerManager.timerManager.startTimer(timer)
-            Timer1.State.RUNNING -> binding.switcher.displayedChild = 0
-            Timer1.State.PAUSED -> binding.switcher.displayedChild = 1
-            Timer1.State.EXPIRED -> {
+            Timer.State.READY -> TimerManager.timerManager.startTimer(timer)
+            Timer.State.RUNNING -> binding.switcher.displayedChild = 0
+            Timer.State.PAUSED -> binding.switcher.displayedChild = 1
+            Timer.State.EXPIRED -> {
                 // TODO: navigation
                 if (timer.lastLap == timer.laps) {
 
@@ -106,14 +106,14 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
     }
 
     private inner class TimerWatcher: TimerListener {
-        override fun timerAdded(timer: Timer1) {
+        override fun timerAdded(timer: Timer) {
         }
 
-        override fun timerUpdated(timer: Timer1) {
+        override fun timerUpdated(timer: Timer) {
             update(timer)
         }
 
-        override fun timerRemoved(timer: Timer1) {
+        override fun timerRemoved(timer: Timer) {
         }
     }
 

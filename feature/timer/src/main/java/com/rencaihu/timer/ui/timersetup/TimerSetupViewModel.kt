@@ -1,7 +1,7 @@
 package com.rencaihu.timer.ui.timersetup
 
 import androidx.lifecycle.ViewModel
-import com.rencaihu.timer.ui.ongoingtimer.Timer1
+import com.rencaihu.timer.ui.ongoingtimer.Timer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -11,7 +11,7 @@ class TimerSetupViewModel: ViewModel() {
         CLOCK(0), PICKER(1)
     }
 
-    private var _uiState: MutableStateFlow<SetupUiState> = MutableStateFlow(SetupUiState(DisplayMode.CLOCK, Timer1.newTimer(-1, 30 * 60 * 1000, 1)))
+    private var _uiState: MutableStateFlow<SetupUiState> = MutableStateFlow(SetupUiState(DisplayMode.CLOCK, Timer.newTimer(-1, 30 * 60 * 1000, 1)))
     val uiState: StateFlow<SetupUiState>
         get() = _uiState
 
@@ -35,7 +35,7 @@ class TimerSetupViewModel: ViewModel() {
     companion object {
         data class SetupUiState(
             val displayMode: DisplayMode,
-            val timer: Timer1
+            val timer: Timer
         )
     }
 }

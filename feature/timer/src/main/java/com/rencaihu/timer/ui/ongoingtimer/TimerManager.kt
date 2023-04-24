@@ -1,11 +1,11 @@
 package com.rencaihu.timer.ui.ongoingtimer
 
 import androidx.annotation.Keep
-import com.rencaihu.timer.ui.ongoingtimer.Timer1.Companion.UNUSED
+import com.rencaihu.timer.ui.ongoingtimer.Timer.Companion.UNUSED
 
 class TimerManager {
 
-    private var mTimer: Timer1? = null
+    private var mTimer: Timer? = null
     private val mTimerListeners = mutableListOf<TimerListener>()
 
     fun addTimerListener(timerListener: TimerListener) {
@@ -16,25 +16,25 @@ class TimerManager {
         mTimerListeners.remove(timerListener)
     }
 
-    fun newTimer(durationPerLap: Long, laps: Int): Timer1 {
-        val timer = Timer1(-1, Timer1.State.READY, durationPerLap, laps, 1, UNUSED, durationPerLap)
+    fun newTimer(durationPerLap: Long, laps: Int): Timer {
+        val timer = Timer(-1, Timer.State.READY, durationPerLap, laps, 1, UNUSED, durationPerLap)
         mTimer = timer
         return timer
     }
 
-    fun getTimer(timerId: Int): Timer1? {
+    fun getTimer(timerId: Int): Timer? {
         return mTimer
     }
 
-    fun startTimer(timer: Timer1) {
+    fun startTimer(timer: Timer) {
         updateTimer(timer.start())
     }
 
-    fun pauseTimer(timer: Timer1) {
+    fun pauseTimer(timer: Timer) {
         updateTimer(timer.pause())
     }
 
-    private fun updateTimer(timer: Timer1): Timer1 {
+    private fun updateTimer(timer: Timer): Timer {
         val before = mTimer
         if (before === timer) {
             return timer

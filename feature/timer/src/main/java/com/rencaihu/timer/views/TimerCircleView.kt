@@ -14,7 +14,7 @@ import com.rencaihu.common.ext.TimeUtil
 import com.rencaihu.common.ext.dp
 import com.rencaihu.common.ext.sp
 import com.rencaihu.timer.R
-import com.rencaihu.timer.ui.ongoingtimer.Timer1
+import com.rencaihu.timer.ui.ongoingtimer.Timer
 import timber.log.Timber
 import kotlin.math.roundToInt
 
@@ -43,7 +43,7 @@ class TimerCircleView @JvmOverloads constructor(
     private val tomatoSize: Int
         get() = tomatoDrawable.intrinsicWidth
 
-    private var mTimer: Timer1? = null
+    private var mTimer: Timer? = null
 
     private val textRect = Rect()
 
@@ -73,7 +73,7 @@ class TimerCircleView @JvmOverloads constructor(
         Timber.d("mTextPaint.textSize = ${18.sp}")
     }
 
-    fun update(timer: Timer1) {
+    fun update(timer: Timer) {
         if (mTimer !== timer) {
             mTimer = timer
             postInvalidateOnAnimation()
