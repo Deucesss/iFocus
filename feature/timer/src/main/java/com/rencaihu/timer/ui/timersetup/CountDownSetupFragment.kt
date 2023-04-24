@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
+import com.rencaihu.common.ext.repeatOn
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
 import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
 import com.rencaihu.timer.ui.ongoingtimer.TimerManager
-import kotlinx.coroutines.launch
 
 class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
 
@@ -56,13 +54,11 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
     }
 
     private fun setupObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    binding.wheelNumber.setDefaultValue((it.timer.durationPerLap / (60  * 1000)).toString())
-                    binding.switcher.displayedChild = it.displayMode.viewPosition
-                    binding.clock.update(it.timer)
-                }
+        repeatOn(Lifecycle.State.STARTED) {
+            viewModel.uiState.collect {
+                binding.wheelNumber.setDefaultValue((it.timer.durationPerLap / (60  * 1000)).toString())
+                binding.switcher.displayedChild = it.displayMode.viewPosition
+                binding.clock.update(it.timer)
             }
         }
     }
