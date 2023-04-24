@@ -142,6 +142,28 @@ class Timer1 internal constructor(
         return Timer1(id, State.EXPIRED, durationPerLap, laps, lastLap, UNUSED, remainingTime)
     }
 
+    fun setDurationPerLap(durationPerLap: Long): Timer1 =
+        Timer1(
+            id,
+            State.READY,
+            durationPerLap,
+            laps,
+            1,
+            UNUSED,
+            durationPerLap
+        )
+
+    fun setLaps(laps: Int): Timer1 =
+        Timer1(
+            id,
+            State.READY,
+            durationPerLap,
+            laps,
+            1,
+            UNUSED,
+            durationPerLap
+        )
+
     companion object {
         /** The minimum duration of a timer.  */
         @JvmField

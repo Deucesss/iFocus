@@ -81,12 +81,8 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
     fun update(timer: Timer1) {
         when (timer.state) {
             Timer1.State.READY -> TimerManager.timerManager.startTimer(timer)
-            Timer1.State.RUNNING -> {
-                binding.switcher.displayedChild = 0
-            }
-            Timer1.State.PAUSED -> {
-                binding.switcher.displayedChild = 1
-            }
+            Timer1.State.RUNNING -> binding.switcher.displayedChild = 0
+            Timer1.State.PAUSED -> binding.switcher.displayedChild = 1
             Timer1.State.EXPIRED -> {
                 // TODO: navigation
                 if (timer.lastLap == timer.laps) {

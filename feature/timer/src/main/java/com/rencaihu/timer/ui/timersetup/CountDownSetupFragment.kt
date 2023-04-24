@@ -47,7 +47,7 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
             viewModel.setDuration(item.toInt())
         }
         binding.btnStart.setOnClickListener {
-            TimerManager.timerManager.newTimer(viewModel.uiState.value.duration * 1000 * 60L, 1)
+            TimerManager.timerManager.newTimer(viewModel.uiState.value.timer.durationPerLap, viewModel.uiState.value.timer.laps)
             findNavController().navigate(
                 R.id.action_dest_home_1_to_focusActivity,
                 bundleOf(EXTRA_TIMER to -1)
@@ -60,8 +60,7 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     binding.switcher.displayedChild = it.displayMode.viewPosition
-                    binding.clock.setLapDuration(it.duration)
-                    binding.wheelNumber.setDefaultValue(it.duration.toString())
+                    binding.clock.update(it.timer)
                 }
             }
         }
