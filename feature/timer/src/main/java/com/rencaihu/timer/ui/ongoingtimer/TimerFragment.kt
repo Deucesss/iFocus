@@ -14,7 +14,7 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
         private set
 
     private val mTimer: Timer?
-        get() = TimerManager.timerManager.getTimer(mTimerId)
+        get() = TimerManager.timerManager.getTimer()
 
     private val mTimerRunnable = TimerRunnable()
 

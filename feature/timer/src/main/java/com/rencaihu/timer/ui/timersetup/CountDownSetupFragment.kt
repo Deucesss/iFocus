@@ -59,6 +59,7 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
+                    binding.wheelNumber.setDefaultValue((it.timer.durationPerLap / (60  * 1000)).toString())
                     binding.switcher.displayedChild = it.displayMode.viewPosition
                     binding.clock.update(it.timer)
                 }

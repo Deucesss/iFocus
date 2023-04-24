@@ -4,6 +4,7 @@ plugins {
     id 'ifocus.android.hilt'
     id 'AndroidApplicationConventionPlugin'
     id 'kotlin-parcelize'
+    id "com.google.protobuf"
 }
 
 android {
@@ -44,6 +45,29 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation  "androidx.datastore:datastore:1.0.0"
+    implementation  "com.google.protobuf:protobuf-javalite:3.18.0"
+
     api project(":core:common")
     implementation project(":core:design")
+}
+
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.22.3"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobufs in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
 }

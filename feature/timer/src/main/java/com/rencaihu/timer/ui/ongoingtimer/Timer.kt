@@ -49,10 +49,10 @@ class Timer internal constructor(
                 }
             }
         }
-        object READY: State(0)
-        object RUNNING : State(1)
-        object PAUSED : State(2)
-        object EXPIRED : State(3)
+        object READY: State(1)
+        object RUNNING : State(2)
+        object PAUSED : State(3)
+        object EXPIRED : State(4)
     }
 
     val isReady: Boolean
@@ -166,6 +166,9 @@ class Timer internal constructor(
             UNUSED,
             durationPerLap
         )
+
+    override fun toString(): String =
+        "Timer {id=$id, state=$state, durationPerLap=$durationPerLap, laps=$laps, lastLap=$lastLap, lastStartTime=$lastStartTime, lastRemainingTime=$lastRemainingTime}"
 
     companion object {
         /** The minimum duration of a timer.  */

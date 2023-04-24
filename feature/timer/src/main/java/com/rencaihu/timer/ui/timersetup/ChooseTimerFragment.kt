@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -16,10 +17,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.design.R
 import com.rencaihu.timer.databinding.FragmentChooseTimerBinding
+import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
+import com.rencaihu.timer.ui.ongoingtimer.TimerManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChooseTimerFragment: BaseFragment<FragmentChooseTimerBinding>() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        checkOngoingTimer()
+    }
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -52,6 +60,15 @@ class ChooseTimerFragment: BaseFragment<FragmentChooseTimerBinding>() {
                     else -> throw Exception("")
                 }
         }.attach()
+    }
+
+    /**
+     * Check if any ongoing timer exists, and if so, navigate to the timer.
+     */
+    private fun checkOngoingTimer() {
+        TimerManager.timerManager.getTimer()?.let {
+            findNavController().navigate(com.rencaihu.timer.R.id.action_dest_home_1_to_focusActivity, bundleOf(EXTRA_TIMER to it.id))
+        }
     }
 
     private class ChooseTimerStateAdapter(fm: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fm, lifecycle) {

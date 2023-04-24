@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.rencaihu.ifocus.proto";
+option java_multiple_files = true;
+
+message TimerProto {
+  int32 id = 1;
+  int32 state = 3;
+  int64 durationPerLap = 4;
+  int32 laps = 5;
+  int32 lastLap = 6;
+  int64 lastStartTime = 7;
+  int64 lastRemainingTime = 8;
+}
