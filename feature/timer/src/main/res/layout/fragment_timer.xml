@@ -40,8 +40,8 @@
         app:layout_constraintGuide_percent=".1"
         />
 
-    <ViewStub
-        android:id="@+id/viewStub"
+    <include
+        android:id="@+id/timer_view"
         android:inflatedId="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/controls"
         app:layout_constraintVertical_chainStyle="packed"
+        layout="@layout/timer_view"
         />
 
     <LinearLayout
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewStub"
+        app:layout_constraintTop_toBottomOf="@id/timer_view"
         app:layout_constraintBottom_toTopOf="@id/settings"
         >
         <ViewSwitcher

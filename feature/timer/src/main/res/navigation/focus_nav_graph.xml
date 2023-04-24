@@ -2,26 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/focus_nav_graph"
-    app:startDestination="@id/countDownFragment">
+    app:startDestination="@id/timerFragment">
 
-    <fragment
-        android:id="@+id/countDownFragment"
-        android:name="com.rencaihu.timer.ui.ongoingtimer.CountDownFragment"
-        android:label="CountDownFragment" >
-        <action
-            android:id="@+id/action_countDownFragment_to_focusCompleteFragment"
-            app:destination="@id/focusCompleteFragment" />
-    </fragment>
     <fragment
         android:id="@+id/focusCompleteFragment"
         android:name="com.rencaihu.timer.ui.ongoingtimer.FocusCompleteFragment"
         android:label="FocusCompleteFragment" >
         <argument
-            android:name="focus"
-            app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
+            android:name="timer"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.rencaihu.timer.ui.ongoingtimer.TimerFragment"
-        android:label="TimerFragment" />
+        android:label="TimerFragment" >
+        <action
+            android:id="@+id/action_timerFragment_to_focusCompleteFragment"
+            app:destination="@id/focusCompleteFragment" />
+    </fragment>
 </navigation>

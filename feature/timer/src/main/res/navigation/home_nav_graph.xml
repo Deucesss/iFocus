@@ -17,9 +17,6 @@
         android:name="com.rencaihu.timer.ui.ongoingtimer.FocusActivity"
         android:label="FocusActivity" >
         <argument
-            android:name="focus"
-            app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
-        <argument
             android:name="timer"
             app:argType="integer"
             android:defaultValue="0" />

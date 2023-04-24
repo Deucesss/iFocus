@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rencaihu.common.BaseFragment
-import com.rencaihu.timer.R
-import com.rencaihu.timer.databinding.ActivityBaseFocusBinding
-import com.rencaihu.timer.databinding.TimerViewBinding
+import com.rencaihu.timer.databinding.FragmentTimerBinding
 
-class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
-
-    private lateinit var timerBinding: TimerViewBinding
+class TimerFragment: BaseFragment<FragmentTimerBinding>() {
 
     var mTimerId: Int = 0
         private set
@@ -32,14 +28,12 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): ActivityBaseFocusBinding =
-        ActivityBaseFocusBinding.inflate(layoutInflater, container, false)
+    ): FragmentTimerBinding =
+        FragmentTimerBinding.inflate(layoutInflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // inflate clock
-        binding.viewStub.layoutResource = R.layout.timer_view
-        timerBinding = TimerViewBinding.bind(binding.viewStub.inflate())
         setListeners()
         TimerManager.timerManager.addTimerListener(mTimerWatcher)
         update(mTimer!!)
@@ -71,11 +65,11 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
 
     private fun startUpdatingTimer() {
         stopUpdatingTimer()
-        timerBinding.root.post(mTimerRunnable)
+        binding.timerView.root.post(mTimerRunnable)
     }
 
     private fun stopUpdatingTimer() {
-        timerBinding.root.removeCallbacks(mTimerRunnable)
+        binding.timerView.root.removeCallbacks(mTimerRunnable)
     }
 
     fun update(timer: Timer) {
@@ -92,16 +86,16 @@ class TimerFragment: BaseFragment<ActivityBaseFocusBinding>() {
                 }
             }
         }
-        timerBinding.root.update(timer)
+        binding.timerView.root.update(timer)
     }
 
     private inner class TimerRunnable: Runnable {
         override fun run() {
             val startTime = SystemClock.elapsedRealtime()
-            timerBinding.root.update(mTimer!!)
+            binding.timerView.root.update(mTimer!!)
             val endTime = SystemClock.elapsedRealtime()
             val delay = endTime + 20 - startTime
-            timerBinding.root.postDelayed(this, delay)
+            binding.timerView.root.postDelayed(this, delay)
         }
     }
 
