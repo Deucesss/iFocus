@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
-import com.rencaihu.timer.ui.ongoingtimer.DownFocus
+import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
+import com.rencaihu.timer.ui.ongoingtimer.TimerManager
 import kotlinx.coroutines.launch
 
 class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
@@ -45,14 +47,10 @@ class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
             viewModel.setDuration(item.toInt())
         }
         binding.btnStart.setOnClickListener {
+            TimerManager.timerManager.newTimer(viewModel.uiState.value.duration * 1000 * 60L, 1)
             findNavController().navigate(
-                R.id.action_chooseTimerFragment2_to_focusActivity,
-                DownFocus.newBundle(
-                    0,
-                    "",
-                    viewModel.uiState.value.duration,
-                    1
-                )
+                R.id.action_dest_home_1_to_focusActivity,
+                bundleOf(EXTRA_TIMER to -1)
             )
         }
     }

@@ -54,7 +54,7 @@ class TomatoSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
 
         binding.btnStart.setOnClickListener {
             findNavController().navigate(
-                R.id.action_chooseTimerFragment2_to_focusActivity,
+                R.id.action_dest_home_1_to_focusActivity,
                 DownFocus.newBundle(
                     0,
                     "",

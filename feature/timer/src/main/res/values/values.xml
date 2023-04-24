@@ -6,4 +6,9 @@
         <attr name="focus_setting_value" format="reference|string" />
     </declare-styleable>
 
+    <declare-styleable name="TimerCircleView">
+        <attr name="timer_circle_remainder_color" format="color|reference" />
+        <attr name="timer_circle_completed_color" format="color|reference" />
+        <attr name="timer_circle_stroke_size" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -20,4 +20,8 @@
             android:name="focus"
             app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
     </fragment>
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.rencaihu.timer.ui.ongoingtimer.TimerFragment"
+        android:label="TimerFragment" />
 </navigation>

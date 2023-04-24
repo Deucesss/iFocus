@@ -7,6 +7,7 @@ import com.rencaihu.common.ext.parcelable
 import com.rencaihu.timer.EXTRA_FOCUS
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.ActivityFocusBinding
+import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
 
 class FocusActivity: BaseActivity<ActivityFocusBinding>() {
 
@@ -18,6 +19,13 @@ class FocusActivity: BaseActivity<ActivityFocusBinding>() {
 
         val navController = (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment).navController
         val navGraph = navController.navInflater.inflate(R.navigation.focus_nav_graph)
+        val timerId = intent.getIntExtra(EXTRA_TIMER, 0)
+        if (timerId != 0) {
+            navGraph.setStartDestination(R.id.timerFragment)
+            navController.setGraph(navGraph, intent.extras)
+            return
+        }
+
         navGraph.setStartDestination(
             when (intent.parcelable<BaseFocus>(EXTRA_FOCUS) ?: return) {
                 is UpFocus -> 0

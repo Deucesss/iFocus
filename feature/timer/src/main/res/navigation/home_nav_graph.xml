@@ -9,7 +9,7 @@
         android:name="com.rencaihu.timer.ui.timersetup.ChooseTimerFragment"
         android:label="ChooseTimerFragment" >
         <action
-            android:id="@+id/action_chooseTimerFragment2_to_focusActivity"
+            android:id="@+id/action_dest_home_1_to_focusActivity"
             app:destination="@id/focusActivity" />
     </fragment>
     <activity
@@ -19,5 +19,9 @@
         <argument
             android:name="focus"
             app:argType="com.rencaihu.timer.ui.ongoingtimer.BaseFocus" />
+        <argument
+            android:name="timer"
+            app:argType="integer"
+            android:defaultValue="0" />
     </activity>
 </navigation>
