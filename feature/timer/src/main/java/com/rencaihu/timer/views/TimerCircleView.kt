@@ -45,6 +45,8 @@ class TimerCircleView @JvmOverloads constructor(
 
     private var mTimer: Timer1? = null
 
+    private val textRect = Rect()
+
     init {
 
         context.obtainStyledAttributes(R.styleable.TimerCircleView).also {
@@ -66,6 +68,8 @@ class TimerCircleView @JvmOverloads constructor(
         mTextPaint.textAlign = Paint.Align.CENTER
         mTextPaint.color = mCompletedColor
         mTextPaint.textSize = 18.sp
+
+        tomatoDrawable.setTint(mTextPaint.color)
         Timber.d("mTextPaint.textSize = ${18.sp}")
     }
 
@@ -158,33 +162,35 @@ class TimerCircleView @JvmOverloads constructor(
                 mPaint
             )
 
+            mTextPaint.textAlign = Paint.Align.CENTER
             canvas.drawText(TimeUtil.formatTimeInSeconds((timer.remainingTime / 1000).toInt()), xCenter, yCenter, mTextPaint)
 
-            drawLapsRemaining(canvas, timer)
+            // draw laps remaining
+            if (timer.laps > 1) {
+                mTextPaint.textAlign = Paint.Align.LEFT
+                val text = "x${timer.lapsRemaining}"
+                val padding = 4.dp
+                mTextPaint.getTextBounds(text, 0, text.length, textRect)
+                val textHeight = textRect.height()
+                val textWidth = textRect.width()
+                val startX = xCenter - (textWidth + padding + tomatoSize) / 2
+                val baselineY = yCenter + mRadius / 3
+                canvas.drawText(text, startX, baselineY, mTextPaint)
+                tomatoDrawable.setBounds(
+                    (startX + textWidth + padding).roundToInt(),
+                    (baselineY - tomatoSize + (tomatoSize - textHeight) / 2).roundToInt(),
+                    (startX + textWidth + padding + tomatoSize).roundToInt(),
+                    (baselineY + (tomatoSize - textHeight) / 2).roundToInt()
+                )
+                tomatoDrawable.draw(canvas)
+            }
+
 
             if (timer.isRunning) {
                 postInvalidateOnAnimation()
             }
 
         } ?: return
-    }
-
-    private fun drawLapsRemaining(canvas: Canvas, timer: Timer1) {
-        if (timer.laps == 1) return
-        val text = "x${timer.laps - timer.lastLap}"
-        val textRect = Rect()
-        mTextPaint.getTextBounds(text, 0, text.length, textRect)
-        val textHeight = textRect.height()
-        val textWidth = textRect.width()
-        canvas.drawText(text, 0f, 0f, mTextPaint)
-        tomatoDrawable.setTint(mTextPaint.color)
-        tomatoDrawable.setBounds(
-            textWidth / 2 + 10,
-            -tomatoSize + (tomatoSize - textHeight) / 2,
-            textWidth / 2 + tomatoSize + 10,
-            (tomatoSize - textHeight) / 2
-        )
-        tomatoDrawable.draw(canvas)
     }
 
     companion object {

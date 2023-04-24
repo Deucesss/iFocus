@@ -88,6 +88,9 @@ class Timer1 internal constructor(
     val elapsedTime: Long
         get() = lastLap * durationPerLap - remainingTime
 
+    val lapsRemaining: Int
+        get() = laps - lastLap + 1
+
     fun start(): Timer1 {
         if (state == State.RUNNING || state == State.EXPIRED) {
             return this
