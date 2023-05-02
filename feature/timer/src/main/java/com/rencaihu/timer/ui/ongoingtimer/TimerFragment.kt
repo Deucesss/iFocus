@@ -48,6 +48,11 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
         startUpdatingTimer()
     }
 
+    override fun onResume() {
+        super.onResume()
+        update(mTimer!!)
+    }
+
     override fun onStop() {
         super.onStop()
         stopUpdatingTimer()

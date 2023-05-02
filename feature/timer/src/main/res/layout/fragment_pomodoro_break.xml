@@ -10,13 +10,12 @@
         android:id="@+id/tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline_top"
-        tools:text="Congratulations!\n You have completed 1 lap. \nTake a break now."
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        />
+        tools:text="Congratulations!\n You have completed 1 lap. \nTake a break now." />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
@@ -58,6 +57,8 @@
         android:text="Break"
         android:textAllCaps="false"
         app:cornerRadius="20dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:strokeColor="@color/colorPrimary"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

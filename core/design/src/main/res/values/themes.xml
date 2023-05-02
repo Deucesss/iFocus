@@ -3,7 +3,7 @@
     <style name="Theme.IFocus" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryLight</item>
@@ -28,7 +28,9 @@
         <item name="android:windowLightStatusBar">
             true
         </item>
+
+
+        <item name="rippleColor">#00000000</item>
+
     </style>
-
-
 </resources>

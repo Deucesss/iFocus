@@ -24,5 +24,4 @@ class FocusActivity: BaseActivity<ActivityFocusBinding>() {
             return
         }
     }
-
 }
