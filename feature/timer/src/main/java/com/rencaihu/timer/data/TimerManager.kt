@@ -34,6 +34,11 @@ class TimerManager {
     private fun readTimerFromDatastore() {
         scope.launch {
             mTimer = mTimerDAO?.readTimer()
+            mTimer?.let {
+                if (it.remainingTime <= 0) {
+                    expireTimer(it)
+                }
+            }
         }
     }
 

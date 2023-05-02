@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import timber.log.Timber
 
 abstract class BaseFragment<T: ViewBinding>: Fragment() {
     private var _binding: T? = null
@@ -27,15 +28,10 @@ abstract class BaseFragment<T: ViewBinding>: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemGestures())
-            // Apply the insets as padding to the view. Here we're setting all of the
-            // dimensions, but apply as appropriate to your layout. You could also
-            // update the views margin if more appropriate.
-            view.updatePadding(insets.left, insets.top, insets.right, insets.bottom)
-
-            // Return CONSUMED if we don't want the window insets to keep being passed
-            // down to descendant views.
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            Timber.d("$insets")
+            v.updatePadding(insets.left, insets.top, insets.right, insets.bottom)
             WindowInsetsCompat.CONSUMED
         }
     }
