@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.R
 import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentTimerBinding
+import timber.log.Timber
 
 class TimerFragment: BaseFragment<FragmentTimerBinding>() {
 
@@ -27,6 +29,12 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTimerId = savedInstanceState?.getInt(EXTRA_TIMER) ?: arguments?.getInt(EXTRA_TIMER) ?: throw Error("No timer passed")
+
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showCancelTimerDialog()
+            }
+        })
     }
 
     override fun getViewBinding(
@@ -51,6 +59,7 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
     override fun onResume() {
         super.onResume()
         update(mTimer!!)
+        Timber.d("onResume: ${findNavController().currentDestination?.displayName}")
     }
 
     override fun onStop() {
@@ -70,6 +79,13 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
         binding.btnResume.setOnClickListener {
             TimerManager.timerManager.startTimer(mTimer!!.start())
         }
+        binding.btnStop.setOnClickListener {
+            showCancelTimerDialog()
+        }
+    }
+
+    private fun showCancelTimerDialog() {
+        findNavController().navigate(R.id.cancelTimerDialogFragment)
     }
 
     private fun startUpdatingTimer() {

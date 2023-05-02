@@ -35,7 +35,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_extend"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="Extend"
@@ -44,15 +44,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintWidth_percent=".25"
         />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_done"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/btn_extend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintWidth_percent=".25"
         app:strokeColor="@color/colorPrimary"
         android:text="Done"
         style="@style/Widget.Material3.Button.OutlinedButton"

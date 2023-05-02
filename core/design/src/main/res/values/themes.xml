@@ -30,7 +30,7 @@
         </item>
 
 
-        <item name="rippleColor">#00000000</item>
+        <item name="rippleColor">@android:color/transparent</item>
 
     </style>
 </resources>

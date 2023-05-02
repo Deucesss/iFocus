@@ -11,10 +11,6 @@
         <service
             android:name=".ui.ongoingtimer.TimerService"
             android:enabled="true"
-            android:exported="false"></service>
-
-        <activity
-            android:name=".PomoActivity"
             android:exported="false" />
     </application>
 

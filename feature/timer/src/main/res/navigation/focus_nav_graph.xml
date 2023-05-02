@@ -36,4 +36,14 @@
         android:id="@+id/pomodoroBreakFragment"
         android:name="com.rencaihu.timer.ui.ongoingtimer.PomodoroBreakFragment"
         android:label="PomodoroBreakFragment" />
+    <dialog
+        android:id="@+id/cancelTimerDialogFragment"
+        android:name="com.rencaihu.timer.ui.ongoingtimer.CancelTimerDialogFragment"
+        android:label="CancelTimerDialogFragment" >
+        <action
+            android:id="@+id/action_cancelTimerDialogFragment_to_focusCompleteFragment"
+            app:destination="@id/focusCompleteFragment"
+            app:popUpTo="@id/timerFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 </navigation>
