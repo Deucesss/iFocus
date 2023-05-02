@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
+import com.rencaihu.timer.R
 import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentTimerBinding
 
@@ -88,10 +90,10 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
                 }
                 if (timer.lastLap == timer.laps) {
                     // navigate to complete
-                    Toast.makeText(requireContext(), "Timer complete", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_timerFragment_to_focusCompleteFragment)
                 } else {
                     // navigate to break selection
-                    Toast.makeText(requireContext(), "Lap complete", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_timerFragment_to_pomodoroBreakFragment)
                 }
             }
         }

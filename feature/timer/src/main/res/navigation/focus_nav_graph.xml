@@ -20,5 +20,12 @@
         <action
             android:id="@+id/action_timerFragment_to_focusCompleteFragment"
             app:destination="@id/focusCompleteFragment" />
+        <action
+            android:id="@+id/action_timerFragment_to_pomodoroBreakFragment"
+            app:destination="@id/pomodoroBreakFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/pomodoroBreakFragment"
+        android:name="com.rencaihu.timer.ui.ongoingtimer.PomodoroBreakFragment"
+        android:label="PomodoroBreakFragment" />
 </navigation>
