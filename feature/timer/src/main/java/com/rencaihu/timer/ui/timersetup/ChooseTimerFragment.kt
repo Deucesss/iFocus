@@ -18,7 +18,7 @@ import com.rencaihu.common.BaseFragment
 import com.rencaihu.design.R
 import com.rencaihu.timer.databinding.FragmentChooseTimerBinding
 import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
-import com.rencaihu.timer.ui.ongoingtimer.TimerManager
+import com.rencaihu.timer.data.TimerManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

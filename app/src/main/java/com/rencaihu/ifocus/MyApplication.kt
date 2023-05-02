@@ -1,7 +1,7 @@
 package com.rencaihu.ifocus
 
 import android.app.Application
-import com.rencaihu.timer.ui.ongoingtimer.TimerManager
+import com.rencaihu.timer.data.TimerManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

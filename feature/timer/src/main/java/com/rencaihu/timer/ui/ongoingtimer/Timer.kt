@@ -13,7 +13,8 @@ class Timer internal constructor(
     val laps: Int,
     val lastLap: Int,
     val lastStartTime: Long,
-    val lastRemainingTime: Long
+    val lastRemainingTime: Long,
+    val isBreakTimer: Boolean
 ) : Parcelable {
 
     @Parcelize
@@ -79,7 +80,7 @@ class Timer internal constructor(
 
     val expirationTime: Long
         get() {
-            check(!(state == State.RUNNING || state == State.EXPIRED)) {
+            check(!(state != State.RUNNING && state != State.EXPIRED)) {
                 "Cannot compute expiration time in state $state"
             }
             return lastStartTime + lastRemainingTime
@@ -103,7 +104,8 @@ class Timer internal constructor(
             laps,
             lastLap,
             System.currentTimeMillis(),
-            lastRemainingTime
+            lastRemainingTime,
+            isBreakTimer
         )
     }
 
@@ -120,7 +122,8 @@ class Timer internal constructor(
             laps,
             lastLap,
             UNUSED,
-            remainingTime
+            remainingTime,
+            isBreakTimer
         )
     }
 
@@ -132,7 +135,8 @@ class Timer internal constructor(
             laps,
             (lastLap + 1).coerceAtMost(laps),
             System.currentTimeMillis(),
-            durationPerLap
+            durationPerLap,
+            isBreakTimer
         )
     }
 
@@ -142,7 +146,7 @@ class Timer internal constructor(
         }
 
         val remainingTime = java.lang.Long.min(0, lastRemainingTime)
-        return Timer(id, State.EXPIRED, durationPerLap, laps, lastLap, UNUSED, remainingTime)
+        return Timer(id, State.EXPIRED, durationPerLap, laps, lastLap, UNUSED, remainingTime, isBreakTimer)
     }
 
     fun setDurationPerLap(durationPerLap: Long): Timer =
@@ -153,7 +157,8 @@ class Timer internal constructor(
             laps,
             1,
             UNUSED,
-            durationPerLap
+            durationPerLap,
+            isBreakTimer
         )
 
     fun setLaps(laps: Int): Timer =
@@ -164,11 +169,12 @@ class Timer internal constructor(
             laps,
             1,
             UNUSED,
-            durationPerLap
+            durationPerLap,
+            isBreakTimer
         )
 
     override fun toString(): String =
-        "Timer {id=$id, state=$state, durationPerLap=$durationPerLap, laps=$laps, lastLap=$lastLap, lastStartTime=$lastStartTime, lastRemainingTime=$lastRemainingTime}"
+        "Timer {id=$id, state=$state, durationPerLap=$durationPerLap, laps=$laps, lastLap=$lastLap, lastStartTime=$lastStartTime, lastRemainingTime=$lastRemainingTime}, isBreak=$isBreakTimer"
 
     companion object {
         /** The minimum duration of a timer.  */
@@ -182,6 +188,9 @@ class Timer internal constructor(
 
         @JvmStatic
         fun newTimer(id: Int, durationPerLap: Long, laps: Int) =
-            Timer(id, State.READY, durationPerLap, laps, 1, UNUSED, durationPerLap)
+            Timer(id, State.READY, durationPerLap, laps, 1, UNUSED, durationPerLap, false)
+
+        fun newBreakTimer(durationPerLap: Long) =
+            Timer(-1, State.READY, durationPerLap, 1, 1, UNUSED, durationPerLap, true)
     }
 }

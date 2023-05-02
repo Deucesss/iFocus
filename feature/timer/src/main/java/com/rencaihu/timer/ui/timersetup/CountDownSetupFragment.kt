@@ -13,7 +13,7 @@ import com.rencaihu.common.ext.repeatOn
 import com.rencaihu.timer.R
 import com.rencaihu.timer.databinding.LayoutTimerSetupBinding
 import com.rencaihu.timer.ui.ongoingtimer.TimerFragment.Companion.EXTRA_TIMER
-import com.rencaihu.timer.ui.ongoingtimer.TimerManager
+import com.rencaihu.timer.data.TimerManager
 
 class CountDownSetupFragment: BaseFragment<LayoutTimerSetupBinding>() {
 

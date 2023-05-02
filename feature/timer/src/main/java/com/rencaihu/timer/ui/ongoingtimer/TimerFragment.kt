@@ -5,7 +5,9 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.rencaihu.common.BaseFragment
+import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentTimerBinding
 
 class TimerFragment: BaseFragment<FragmentTimerBinding>() {
@@ -79,10 +81,17 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
             Timer.State.PAUSED -> binding.switcher.displayedChild = 1
             Timer.State.EXPIRED -> {
                 // TODO: navigation
+                if (timer.isBreakTimer) {
+                    //navigate to break complete
+                    Toast.makeText(requireContext(), "Break complete", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 if (timer.lastLap == timer.laps) {
-
+                    // navigate to complete
+                    Toast.makeText(requireContext(), "Timer complete", Toast.LENGTH_SHORT).show()
                 } else {
-
+                    // navigate to break selection
+                    Toast.makeText(requireContext(), "Lap complete", Toast.LENGTH_SHORT).show()
                 }
             }
         }
