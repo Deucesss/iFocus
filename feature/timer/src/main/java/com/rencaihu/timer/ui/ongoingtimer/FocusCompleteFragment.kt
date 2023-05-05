@@ -16,15 +16,6 @@ class FocusCompleteFragment: BaseFragment<FragmentFocusCompleteBinding>() {
     ): FragmentFocusCompleteBinding =
         FragmentFocusCompleteBinding.inflate(inflater, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)  {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        })
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }

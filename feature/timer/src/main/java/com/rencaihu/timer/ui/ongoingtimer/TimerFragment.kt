@@ -26,15 +26,21 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
 
     private val mTimerWatcher: TimerWatcher = TimerWatcher()
 
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            showCancelTimerDialog()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mTimerId = savedInstanceState?.getInt(EXTRA_TIMER) ?: arguments?.getInt(EXTRA_TIMER) ?: throw Error("No timer passed")
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
 
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                showCancelTimerDialog()
-            }
-        })
+    override fun onDestroy() {
+        super.onDestroy()
+        callback.remove()
     }
 
     override fun getViewBinding(
