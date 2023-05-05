@@ -48,7 +48,7 @@ class TimerManager {
         }
     }
 
-    private fun removeTimerFromDatastore() {
+    fun removeTimerFromDatastore() {
         scope.launch {
             mTimer?.let {
                 mTimerDAO?.deleteTimer(it)
