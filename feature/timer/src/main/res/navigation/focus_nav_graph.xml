@@ -20,17 +20,20 @@
         <action
             android:id="@+id/action_timerFragment_to_focusCompleteFragment"
             app:destination="@id/focusCompleteFragment"
-            app:enterAnim="@android:anim/slide_in_left"
+            app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/timerFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_timerFragment_to_pomodoroBreakFragment"
             app:destination="@id/pomodoroBreakFragment"
-            app:enterAnim="@android:anim/slide_in_left"
+            app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/timerFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_timerFragment_to_cancelTimerDialogFragment"
+            app:destination="@id/cancelTimerDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/pomodoroBreakFragment"
@@ -43,6 +46,7 @@
         <action
             android:id="@+id/action_cancelTimerDialogFragment_to_focusCompleteFragment"
             app:destination="@id/focusCompleteFragment"
+            app:enterAnim="@anim/slide_in_right"
             app:popUpTo="@id/timerFragment"
             app:popUpToInclusive="true" />
     </dialog>
