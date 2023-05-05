@@ -1,6 +1,5 @@
 package com.rencaihu.timer.ui.ongoingtimer
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,11 +10,7 @@ import com.rencaihu.timer.R
 import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentPomodoroBreakBinding
 
-class PomodoroBreakFragment: BaseFragment<FragmentPomodoroBreakBinding>() {
-
-    private val mTimer: Timer?
-        get() = TimerManager.timerManager.getTimer()
-
+class BreakCompleteFragment: BaseFragment<FragmentPomodoroBreakBinding>() {
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -23,23 +18,22 @@ class PomodoroBreakFragment: BaseFragment<FragmentPomodoroBreakBinding>() {
     ): FragmentPomodoroBreakBinding =
         FragmentPomodoroBreakBinding.inflate(inflater, container, false)
 
-
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvDesc.text = "Congrats!\nYou have completed ${mTimer!!.lastLap} pomodoro${if (mTimer!!.lastLap > 1) "s" else ""}!\nTake a break!"
+        binding.tvDesc.text = "Break Complete!\n Continue to next pomodoro?"
+        binding.btnBreak.text = "Complete"
+        binding.btnSkip.text = "GO!"
         setListeners()
     }
 
     private fun setListeners() {
         binding.btnSkip.setOnClickListener {
-            TimerManager.timerManager.nextLap(mTimer!!)
-            findNavController().navigate(R.id.action_pomodoroBreakFragment_to_timerFragment)
+            TimerManager.timerManager.nextLap(TimerManager.timerManager.getTimer()!!)
+            findNavController().navigate(R.id.action_breakCompleteFragment_to_timerFragment)
         }
 
         binding.btnBreak.setOnClickListener {
-            TimerManager.timerManager.breakTimer(5000L)
-            findNavController().navigate(R.id.action_pomodoroBreakFragment_to_timerFragment)
+            findNavController().navigate(R.id.action_breakCompleteFragment_to_focusCompleteFragment)
         }
     }
 }

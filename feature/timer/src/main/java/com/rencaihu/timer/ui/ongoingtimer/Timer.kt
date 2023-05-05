@@ -87,7 +87,7 @@ class Timer internal constructor(
         }
 
     val elapsedTime: Long
-        get() = lastLap * durationPerLap - remainingTime
+        get() = durationPerLap - remainingTime
 
     val lapsRemaining: Int
         get() = laps - lastLap + 1
@@ -130,11 +130,11 @@ class Timer internal constructor(
     fun nextLap(): Timer {
         return Timer(
             id,
-            State.RUNNING,
+            State.READY,
             durationPerLap,
             laps,
             (lastLap + 1).coerceAtMost(laps),
-            System.currentTimeMillis(),
+            UNUSED,
             durationPerLap,
             isBreakTimer
         )

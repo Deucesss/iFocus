@@ -53,6 +53,7 @@ class TimerManager {
             mTimer?.let {
                 mTimerDAO?.deleteTimer(it)
             }
+            readTimerFromDatastore()
         }
     }
 
@@ -74,7 +75,7 @@ class TimerManager {
     fun breakTimer(durationPerLap: Long): Timer {
         val timer = Timer.newBreakTimer(durationPerLap)
         saveTimerToDatastore(timer)
-        readTimerFromDatastore()
+        mTimer = timer
         return timer
     }
 
@@ -92,6 +93,10 @@ class TimerManager {
 
     fun expireTimer(timer: Timer) {
         updateTimer(timer.expire())
+    }
+
+    fun nextLap(timer: Timer) {
+        updateTimer(timer.nextLap())
     }
 
     private fun updateTimer(timer: Timer): Timer {

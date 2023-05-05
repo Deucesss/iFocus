@@ -5,13 +5,14 @@ import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.R
 import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentTimerBinding
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class TimerFragment: BaseFragment<FragmentTimerBinding>() {
@@ -64,8 +65,8 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
 
     override fun onResume() {
         super.onResume()
+        Timber.d("timer: $mTimer")
         update(mTimer!!)
-        Timber.d("onResume: ${findNavController().currentDestination?.displayName}")
     }
 
     override fun onStop() {
@@ -112,7 +113,8 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
                 // TODO: navigation
                 if (timer.isBreakTimer) {
                     //navigate to break complete
-                    Toast.makeText(requireContext(), "Break complete", Toast.LENGTH_SHORT).show()
+                    TimerManager.timerManager.removeTimerFromDatastore()
+                    findNavController().navigate(R.id.action_timerFragment_to_breakCompleteFragment)
                     return
                 }
                 if (timer.lastLap == timer.laps) {

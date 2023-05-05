@@ -130,7 +130,7 @@ class TimerCircleView @JvmOverloads constructor(
 
             val gapCount = if (timer.laps == 1) 0 else timer.laps
             val degreePerSection = (360f - GAP_DEGREE * gapCount) / timer.laps
-            val startAngle = 270f + (GAP_DEGREE / 2) * (if (gapCount == 0) 0 else 1)
+            var startAngle = 270f + (GAP_DEGREE / 2) * (if (gapCount == 0) 0 else 1)
             // draw sections
             for (i in 0 until timer.laps) {
                 canvas.drawArc(
@@ -185,6 +185,7 @@ class TimerCircleView @JvmOverloads constructor(
                 tomatoDrawable.draw(canvas)
             }
 
+            Timber.d("timer: $timer")
 
             if (timer.isRunning) {
                 postInvalidateOnAnimation()
