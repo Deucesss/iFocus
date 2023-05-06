@@ -45,14 +45,49 @@
         android:inflatedId="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/controls"
+        app:layout_constraintBottom_toTopOf="@id/layout_settings"
         app:layout_constraintVertical_chainStyle="packed"
         layout="@layout/timer_view"
         />
+
+    <LinearLayout
+        android:id="@+id/layout_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/timer_view"
+        app:layout_constraintBottom_toTopOf="@id/controls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="36dp"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_wallpaper"
+            />
+
+        <ImageView
+            android:id="@+id/iv_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:src="@drawable/ic_music"
+            />
+
+        <ImageView
+            android:id="@+id/iv_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_fullscreen"
+            />
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/controls"
@@ -60,8 +95,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer_view"
-        app:layout_constraintBottom_toTopOf="@id/settings"
+        app:layout_constraintTop_toBottomOf="@id/layout_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
         <ViewSwitcher
             android:id="@+id/switcher"
@@ -104,56 +139,56 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/colorPrimaryLight"
-        >
-        <com.rencaihu.timer.views.FocusSettingView
-            android:id="@+id/setting_background"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/setting_music"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent=".3"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:focus_setting_title="Background"
-            app:focus_setting_value="Background"
-            />
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/settings"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintHeight_percent=".09"-->
+<!--        android:layout_marginBottom="24dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        >-->
+<!--        <com.rencaihu.timer.views.FocusSettingView-->
+<!--            android:id="@+id/setting_background"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/setting_music"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintWidth_percent=".3"-->
+<!--            app:layout_constraintHorizontal_chainStyle="spread"-->
+<!--            app:focus_setting_title="Background"-->
+<!--            app:focus_setting_value="Background"-->
+<!--            />-->
 
-        <com.rencaihu.timer.views.FocusSettingView
-            android:id="@+id/setting_music"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/setting_background"
-            app:layout_constraintEnd_toStartOf="@id/setting_mode"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent=".3"
-            app:focus_setting_title="Music"
-            app:focus_setting_value="Background"
-            />
+<!--        <com.rencaihu.timer.views.FocusSettingView-->
+<!--            android:id="@+id/setting_music"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintStart_toEndOf="@id/setting_background"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/setting_mode"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintWidth_percent=".3"-->
+<!--            app:focus_setting_title="Music"-->
+<!--            app:focus_setting_value="Background"-->
+<!--            />-->
 
-        <com.rencaihu.timer.views.FocusSettingView
-            android:id="@+id/setting_mode"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/setting_music"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent=".3"
-            app:focus_setting_title="Focus Mode"
-            app:focus_setting_value="Background"
-            />
+<!--        <com.rencaihu.timer.views.FocusSettingView-->
+<!--            android:id="@+id/setting_mode"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintStart_toEndOf="@id/setting_music"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintWidth_percent=".3"-->
+<!--            app:focus_setting_title="Mode"-->
+<!--            app:focus_setting_value="Background"-->
+<!--            />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

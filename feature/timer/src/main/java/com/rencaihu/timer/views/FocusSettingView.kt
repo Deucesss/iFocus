@@ -17,7 +17,7 @@ class FocusSettingView @JvmOverloads constructor(
     private val binding: LayoutFocusSettingBinding
 
     init {
-        binding = LayoutFocusSettingBinding.inflate(LayoutInflater.from(ctx), this, false)
+        binding = LayoutFocusSettingBinding.inflate(LayoutInflater.from(ctx), this, true)
         ctx.obtainStyledAttributes(attrs, R.styleable.FocusSettingView).also {
             binding.tvSettingTitle.text = it.getString(R.styleable.FocusSettingView_focus_setting_title)
             binding.tvSettingValue.text = it.getString(R.styleable.FocusSettingView_focus_setting_value)

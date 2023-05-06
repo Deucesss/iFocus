@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    android:background="@drawable/bg_round_small"
+    android:backgroundTint="@color/colorPrimaryLight"
     >
 
     <ImageView
@@ -22,9 +25,11 @@
         android:id="@+id/tv_setting_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         app:layout_constraintStart_toEndOf="@id/iv_arrow"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_setting_value"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Settings Title"
         />
 
