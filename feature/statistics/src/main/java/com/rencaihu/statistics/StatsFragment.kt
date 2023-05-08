@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
-import androidx.navigation.NavDeepLinkRequest
-import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.statistics.databinding.FragmentStatsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class StatsFragment: BaseFragment<FragmentStatsBinding>() {
+
+
+    private var time: Long = 300 * 1000L
 
     override fun getViewBinding(
         inflater: LayoutInflater,
@@ -22,12 +22,9 @@ class StatsFragment: BaseFragment<FragmentStatsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.setOnClickListener {
-            val req =
-                NavDeepLinkRequest.Builder
-                    .fromUri("android-app://example.google.app/home_fragment".toUri())
-                    .build()
-            findNavController().navigate(req)
+        binding.flipClock.setOnClickListener() {
+            time -= 1000L
+            binding.flipClock.setTime(time)
         }
     }
 }

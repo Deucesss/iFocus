@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.rencaihu.common.BaseFragment
 import com.rencaihu.timer.R
 import com.rencaihu.timer.data.TimerManager
 import com.rencaihu.timer.databinding.FragmentTimerBinding
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class TimerFragment: BaseFragment<FragmentTimerBinding>() {
@@ -42,6 +40,7 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         callback.remove()
+        TimerManager.timerManager.removeTimerListener(mTimerWatcher)
     }
 
     override fun getViewBinding(
@@ -88,6 +87,9 @@ class TimerFragment: BaseFragment<FragmentTimerBinding>() {
         }
         binding.btnStop.setOnClickListener {
             showCancelTimerDialog()
+        }
+        binding.ivFullscreen.setOnClickListener {
+            findNavController().navigate(R.id.action_timerFragment_to_fullscreenFragment)
         }
     }
 

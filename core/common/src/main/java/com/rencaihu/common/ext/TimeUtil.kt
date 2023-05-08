@@ -18,4 +18,13 @@ object TimeUtil {
             minuteInSeconds(timeInSeconds),
             secondsInSeconds(timeInSeconds)
         )
+
+    fun hoursFromMillis(timeInMillis: Long) =
+        ((timeInMillis / 1000) / 3600).toInt()
+
+    fun minutesInMillis(timeInMillis: Long) =
+        (((timeInMillis / 1000) % 3600) / 60).toInt()
+
+    fun secondsInMillis(timeInMillis: Long) =
+        ((timeInMillis / 1000) % 3600 % 60).toInt()
 }

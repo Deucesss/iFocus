@@ -24,4 +24,6 @@
 
     <color name="colorTabText">@color/color_tab_text</color>
 
+    <color name="colorFlipClockBackground">#303030</color>
+    <color name="colorFlipClockDivider">#000</color>
 </resources>
